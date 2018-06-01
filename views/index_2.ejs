@@ -1,0 +1,89 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, user-scalable=no , initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!--bootstrap-select -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <% include ./partials/head %>
+    
+<style>
+        .hero_home{
+            margin-top:-30px;
+            height:500px;
+            width:100%;
+        }
+        .hero_home, .version_1{
+            text-transform: uppercase;
+            align-self: auto;
+            background:url(./images/search.svg) center bottom no-repeat #3f4079;
+            -webkit-background-size:cover;
+            -moz-background-size:cover;
+            -o-background-size:cover;
+            background-size:cover;
+            font-family: "Segoe UI","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        }
+        .hero_home, .version_1, .content{
+            background-color:#3f4079;
+        }
+        .btn, .btn-success{
+            width: 100%;
+            height: 50px;
+            background-color: #74d1c6;
+            border-color: #74d1c6;
+        }
+        .btn:hover, .btn:active, .btn:focus{
+            background-color: #e74e84;
+            border-color: #e74e84;
+        }
+        h1{
+            padding-top: 80px;
+            font-size : 70px;;
+        }
+        .container-padding50{
+            left:50%;
+        }
+        .input-group{
+            width: auto;   
+        }
+        .form-control{
+            font: 400 18px Arial;
+            font-size: 18px;
+            width: 100%;
+            height: 50px;
+            color: #333;
+        }
+</style>
+  </head>
+  <body>
+        
+    
+    <% include ./partials/top %>
+
+        <div class=" hero_home version_1">
+    <div class="container">
+            <marquee direction="up" behavior="slide" scrollamount='10'>
+                <h1 align='center'><font color="white"  style="text-shadow:1px 1px 0px black"><strong>Find Hospital</strong></font></h1>
+                <h2></h2>
+            </marquee>
+
+            <form class="form" id="hos" action="/hospital" role="form" method="get" >
+                    <div class="input-group" >
+                        <input type="text" class="form-control" align="center" name='search_text' id='search_text' placeholder="Search for...">
+                        <span class="input-group-btn">
+                                <input type="submit" id='search_button' align="center" value="Search" class="btn btn-success">
+                        </span>
+                    </div><!-- /input-group -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer  -->
+    <% include ./partials/footer.ejs %>
+  
+  </body>
+</html>
