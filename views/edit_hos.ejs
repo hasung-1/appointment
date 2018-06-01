@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		
 		<title>회원정보 수정 화면</title>
 		
@@ -150,10 +150,12 @@
 					<label for="inputAddress" class="col-lg-2 control-label">주소</label>
 					
 					<div class="col-lg-10">
-						<p>
+                        <div class="input-group">
 							<input id="zip_code" readonly="" value='<%=user.uzip%>' name="post1" placeholder="우편번호"  class="form-control">
-							<input onclick="openDaumPostcode()" type="button" value="우편번호찾기" class="btn btn-primary">
-						</p>
+                        <span class="input-group-btn">    
+                            <input onclick="openDaumPostcode()" type="button" value="우편번호찾기" class="btn btn-primary">
+                        </span>
+                    </div>
 						<p>
                             <input class="form-control" id="road_addr" name="addr"  readonly=""  placeholder="법정동 주소" >
                             <input class="form-control" id="rest_addr" name="addr_" placeholder="나머지 주소">
