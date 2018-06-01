@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		
+		<title>회원정보 수정 화면</title>
+		
+		<% include ./partials/head %>
+    	<link rel="stylesheet" href="/netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+        
+        <!--bootstrap-select -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+        <style>
+                .selectContainer {width:200px}
+
+                /* 닫힐 때 글자 색*/
+                .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+                  color:white;
+                }
+                /* 선택안됐을 시 */
+                .bootstrap-select.btn-group .dropdown-toggle[title="[Nothing selected]"] .filter-option {
+                  color: red;
+                }
+                /* 마우스 및 선택되기 전까지 */
+                .bootstrap-select.btn-group .dropdown-menu > li > a:hover:not(:focus) {
+                  color: orange;
+                }
+                .dropdown-menu > li.selected > a {
+                    background-color: rgb(230, 220, 193);
+                }
+        </style>
+    
+	</head>
+	<body>
+		<% include ./partials/top %>
+
+		<div class="container"><!-- 좌우측의 공간 확보 -->
+            <!-- 헤더 들어가는 부분 -->
+			<div class="page-header">
+				<h1><span class="fa fa-sign-in"></span>병원 회원 수정</h1>
+			</div>			
+						
+			<!-- 인증 처리 후 메시지가 있으면 메시지 표시 -->
+			<% if (message.length > 0) { %>
+				<div class="alert alert-danger"><%= message %></div>
+			<% } %>
+
+			<form class="form-horizontal" id="hos" action="/users/edit" role="form" method="post" >
+				<input type="hidden" name="gubun" value="hospital">
+                <input type="hidden" name="email" value="<%=user.uuid%>">
+                <input type="hidden" id="sido" name="sido" value='<%=user.usido%>'/>
+                <input type="hidden" id="gungu" name="gungu" value='<%=user.ugungu%>'/>
+                <input type="hidden" id="dong" name="dong" value='<%=user.udong%>'/>
+                <input type="hidden" id="addr1" name="addr1" value='<%=user.uaddress%>'>
+                <div class="form-group" id="divEmail">
+					<label for="inputEmail" class="col-lg-2 control-label">이메일</label>
+					<div class="col-lg-10">
+						<input type="email" class="form-control" value='<%=user.uuid%>' id="email" name="email" disabled data-rule-required="true" placeholder="이메일" maxlength="40">
+					</div>
+				</div>
+				<div class="form-group" id="divPassword">
+					<label for="inputPassword" class="col-lg-2 control-label">패스워드</label>
+					<div class="col-lg-10">
+						<input type="password" class="form-control" id="password" name="password" data-rule-required="true" placeholder="패스워드" maxlength="30">
+					</div>
+				</div>
+				<div class="form-group" id="divPasswordCheck">
+					<label for="inputPasswordCheck" class="col-lg-2 control-label">패스워드 확인</label>
+					<div class="col-lg-10">
+						<input type="password" class="form-control" id="passwordCheck" data-rule-required="true" placeholder="패스워드 확인" maxlength="30">
+					</div>
+				</div>
+				<div class="form-group" id="divName">
+					<label for="inputName" class="col-lg-2 control-label">병원 이름</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control onlyHangul" value='<%=user.uname%>' id="name" name="name" data-rule-required="true" placeholder="한글만 입력 가능합니다." maxlength="15">
+					</div>
+                </div>
+				<div class="form-group" id="divSubjects">
+					<label for="inputSubjects" class="col-lg-2 control-label">진료 과목</label>
+					<div class="col-lg-3">
+                        <select id="subjects" name="subjects" class="selectpicker" multiple data-live-search="true">
+                                
+                            <% subjects.forEach(function(item,index){ %>
+                                <option value='<%=item.code%>' 
+                                <% hos_sub_info.forEach(function(hs_item,index){ %>
+                                    <% if(hs_item.subject_id == item.code){ %>
+                                        selected="selected"
+                                    <% }else{ %>
+                                    <% } %>
+                                <% }) %>
+                                ><%=item.subject%></option>
+                            <% }) %>
+
+                        </select>
+                    </div>
+                </div>
+				<div class="form-group" id="divHomepage">
+					<label for="inputHomepage" class="col-lg-2 control-label">홈 페이지</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" value='<%=hospital_info.homepage%>' id="homepage" name="homepage" data-rule-required="true" placeholder="Homepage">
+					</div>
+				</div>
+				<div class="form-group" id="divNotice">
+					<label for="inputNotice" class="col-lg-2 control-label">공지사항</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" value='<%=hospital_info.notice%>' id="notice" name="notice" data-rule-required="true" placeholder="Notice">
+					</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">진료시간</label>  
+                    <div class="col-lg-10">
+                            <select id="times"  name="times" class="form-control multiselect" multiple="multiple" required="true">
+                                <% time_info.forEach(function(item,index){ %>
+                                    <option selected="selected"><%=item.time%></option>
+                                <% }) %>
+                            </select>
+                            <input type="time" name="time" class="form-control" id="time" min="06:00" max="21:00" pattern="[0-2][0-9]:[0-3][0]">
+                            <input type="button" onclick="addTime()" value="시간 추가"class="btn btn-primary">
+                            <input type="button" onclick="delTime()" value="시간 제거"class="btn btn-primary">
+                        
+                    </div>
+                </div>
+                    
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">의사</label>
+                    <div class="col-lg-10">
+                            <select id="doctors"  name="doctors" class="form-control multiselect" multiple="multiple" required="true">
+                                <% doctor_info.forEach(function(item,index){ %>
+                                    <option selected="selected"><%=item.name%></option>
+                                <% }) %>
+                            </select>
+                            <input id='doctor' type="text" name="doctor"  size="10" class="form-control" >
+                            <input type="button" onclick="addDoctor()" value="이름 추가" class="btn btn-primary">
+                            <input type="button" onclick="delDoctor()" value="이름 삭제" class="btn btn-primary">
+                        
+                    </div>
+                </div>
+				<div class="form-group" id="divTel">
+					<label for="inputTel" class="col-lg-2 control-label">전화 번호</label>
+					<div class="col-lg-10">
+						<input type="tel" class="form-control onlyNumber" value='<%=user.uphone%>' id="tel" name="tel" data-rule-required="true" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
+					</div>
+				</div>
+				<div class="form-group" id='divAddress'>
+					<label for="inputAddress" class="col-lg-2 control-label">주소</label>
+					
+					<div class="col-lg-10">
+						<p>
+							<input id="zip_code" readonly="" value='<%=user.uzip%>' name="post1" placeholder="우편번호"  class="form-control">
+							<input onclick="openDaumPostcode()" type="button" value="우편번호찾기" class="btn btn-primary">
+						</p>
+						<p>
+                            <input class="form-control" id="road_addr" name="addr"  readonly=""  placeholder="법정동 주소" >
+                            <input class="form-control" id="rest_addr" name="addr_" placeholder="나머지 주소">
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-default">정보 수정</button>
+						<a href="#" class="btn btn-default">정보 삭제</a>
+					</div>
+				</div>
+			</form>
+		
+			<hr>
+			<dev align='center'>
+				<p><a href="/">홈으로</a>.</p>
+			</dev>
+		</div>
+        <script type="text/javascript">
+            $(function(){
+                //모달을 전역변수로 선언
+                var modalContents = $(".modal-contents");
+                var modal = $("#defaultModal");
+                 
+                $('.onlyAlphabetAndNumber').keyup(function(event){
+                    if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                        var inputVal = $(this).val();
+                        $(this).val($(this).val().replace(/[^_a-z0-9]/gi,'')); //_(underscore), 영어, 숫자만 가능
+                    }
+                });
+                 
+                $(".onlyHangul").keyup(function(event){
+                    if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                        var inputVal = $(this).val();
+                        $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
+                    }
+                });
+             
+                $(".onlyNumber").keyup(function(event){
+                    if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                        var inputVal = $(this).val();
+                        $(this).val(inputVal.replace(/[^0-9]/gi,''));
+                    }
+                });
+                 
+                //------- 검사하여 상태를 class에 적용
+                $('#id').keyup(function(event){
+                     
+                    var divId = $('#divId');
+                     
+                    if($('#id').val()==""){
+                        divId.removeClass("has-success");
+                        divId.addClass("has-error");
+                    }else{
+                        divId.removeClass("has-error");
+                        divId.addClass("has-success");
+                    }
+                });
+                 
+                $('#password').keyup(function(event){
+                     
+                    var divPassword = $('#divPassword');
+                     
+                    if($('#password').val()==""){
+                        divPassword.removeClass("has-success");
+                        divPassword.addClass("has-error");
+                    }else{
+                        divPassword.removeClass("has-error");
+                        divPassword.addClass("has-success");
+                    }
+                });
+                 
+                $('#passwordCheck').keyup(function(event){
+                     
+                    var passwordCheck = $('#passwordCheck').val();
+                    var password = $('#password').val();
+                    var divPasswordCheck = $('#divPasswordCheck');
+                     
+                    if((passwordCheck=="") || (password!=passwordCheck)){
+                        divPasswordCheck.removeClass("has-success");
+                        divPasswordCheck.addClass("has-error");
+                    }else{
+                        divPasswordCheck.removeClass("has-error");
+                        divPasswordCheck.addClass("has-success");
+                    }
+                });
+                 
+                $('#name').keyup(function(event){
+                     
+                    var divName = $('#divName');
+                     
+                    if($.trim($('#name').val())==""){
+                        divName.removeClass("has-success");
+                        divName.addClass("has-error");
+                    }else{
+                        divName.removeClass("has-error");
+                        divName.addClass("has-success");
+                    }
+                });
+                 
+                $('#nickname').keyup(function(event){
+                     
+                    var divNickname = $('#divNickname');
+                     
+                    if($.trim($('#nickname').val())==""){
+                        divNickname.removeClass("has-success");
+                        divNickname.addClass("has-error");
+                    }else{
+                        divNickname.removeClass("has-error");
+                        divNickname.addClass("has-success");
+                    }
+                });
+                 
+                $('#email').keyup(function(event){
+                     
+                    var divEmail = $('#divEmail');
+                     
+                    if($.trim($('#email').val())==""){
+                        divEmail.removeClass("has-success");
+                        divEmail.addClass("has-error");
+                    }else{
+                        divEmail.removeClass("has-error");
+                        divEmail.addClass("has-success");
+                    }
+                });
+                 
+                $('#tel').keyup(function(event){
+                     
+                    var divTel = $('#divTel');
+                     
+                    if($.trim($('#tel').val())==""){
+                        divTel.removeClass("has-success");
+                        divTel.addClass("has-error");
+                    }else{
+                        divTel.removeClass("has-error");
+                        divTel.addClass("has-success");
+                    }
+                });
+                 
+                 
+                //------- validation 검사
+                $( "form" ).submit(function( event ) {
+                     
+                    var provision = $('#provision');
+                    var memberInfo = $('#memberInfo');
+                    var divPassword = $('#divPassword');
+                    var divPasswordCheck = $('#divPasswordCheck');
+                    var divName = $('#divName');
+                    var divNickname = $('#divNickname');
+                    var divEmail = $('#divEmail');
+                    var divTel = $('#divTel');
+                     
+                    
+                     
+                    //이메일 검사
+                    if($('#email').val()==""){
+                        modalContents.text("이메일을 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divEmail.removeClass("has-success");
+                        divEmail.addClass("has-error");
+                        $('#email').focus();
+                        return false;
+                    }else{
+                        divEmail.removeClass("has-error");
+                        divEmail.addClass("has-success");
+                    }
+                     
+                    //패스워드 검사
+                    if($('#password').val()==""){
+                        modalContents.text("패스워드를 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divPassword.removeClass("has-success");
+                        divPassword.addClass("has-error");
+                        $('#password').focus();
+                        return false;
+                    }else{
+                        divPassword.removeClass("has-error");
+                        divPassword.addClass("has-success");
+                    }
+                     
+                    //패스워드 확인
+                    if($('#passwordCheck').val()==""){
+                        modalContents.text("패스워드 확인을 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divPasswordCheck.removeClass("has-success");
+                        divPasswordCheck.addClass("has-error");
+                        $('#passwordCheck').focus();
+                        return false;
+                    }else{
+                        divPasswordCheck.removeClass("has-error");
+                        divPasswordCheck.addClass("has-success");
+                    }
+                     
+                    //패스워드 비교
+                    if($('#password').val()!=$('#passwordCheck').val() || $('#passwordCheck').val()==""){
+                        modalContents.text("패스워드가 일치하지 않습니다.");
+                        modal.modal('show');
+                         
+                        divPasswordCheck.removeClass("has-success");
+                        divPasswordCheck.addClass("has-error");
+                        $('#passwordCheck').focus();
+                        return false;
+                    }else{
+                        divPasswordCheck.removeClass("has-error");
+                        divPasswordCheck.addClass("has-success");
+                    }
+                     
+                    //이름
+                    if($('#name').val()==""){
+                        modalContents.text("이름을 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divName.removeClass("has-success");
+                        divName.addClass("has-error");
+                        $('#name').focus();
+                        return false;
+                    }else{
+                        divName.removeClass("has-error");
+                        divName.addClass("has-success");
+                    }
+                     
+                    //별명
+                    if($('#nickname').val()==""){
+                        modalContents.text("별명을 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divNickname.removeClass("has-success");
+                        divNickname.addClass("has-error");
+                        $('#nickname').focus();
+                        return false;
+                    }else{
+                        divNickname.removeClass("has-error");
+                        divNickname.addClass("has-success");
+                    }
+                     
+                    //이메일
+                    if($('#email').val()==""){
+                        modalContents.text("이메일을 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divEmail.removeClass("has-success");
+                        divEmail.addClass("has-error");
+                        $('#email').focus();
+                        return false;
+                    }else{
+                        divEmail.removeClass("has-error");
+                        divEmail.addClass("has-success");
+                    }
+                     
+                    //휴대폰 번호
+                    if($('#phoneNumber').val()==""){
+                        modalContents.text("휴대폰 번호를 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                         
+                        divPhoneNumber.removeClass("has-success");
+                        divPhoneNumber.addClass("has-error");
+                        $('#phoneNumber').focus();
+                        return false;
+                    }else{
+                        divPhoneNumber.removeClass("has-error");
+                        divPhoneNumber.addClass("has-success");
+                    }
+                });
+                 
+            });
+
+            $('.selectpicker').selectpicker({
+                style: 'btn-success',
+                size: 4,
+                
+            });
+
+            $(document).ready(function(){
+                var str = $("#addr1").val();
+                var tmp = str.indexOf("동 ");
+                
+                    $("#road_addr").val(str.slice(0,tmp+1));
+                    $("#rest_addr").val(str.slice(tmp+2,str.length));
+
+            });
+
+            function addTime(){
+                var temp = $('#time').val() + ":00";
+                
+                $("#times").append("<option value='"+ temp +"' selected=true>" + temp + "</option>");
+                $("#time").val('');
+            }
+
+            function addDoctor(){
+                $("#doctors").append("<option value='"+ $('#doctor').val() +"' selected=true>" + $('#doctor').val() + "</option>");
+                $("#doctor").val('');
+            }        
+            function delTime(){
+                $("#times option:selected").remove();
+                
+                var len1 = Object.keys(times).length;
+                confirm(len1);
+                for( var i=0 ;i<len1;i++)
+                {
+                    $('#times option:eq('+i+')').prop("selected", true);
+                }
+            }   
+            function delDoctor(){
+                $("#doctors option:selected").remove();
+                
+                var len1 = Object.keys(doctors).length;
+                confirm(len1);
+                for( var i=0 ;i<len1;i++)
+                {
+                    $('#doctors option:eq('+i+')').prop("selected", true);
+                }
+            }   
+        </script>
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+        <script charset="UTF-8" type="text/javascript" src="http://t1.daumcdn.net/cssjs/postcode/1513129253770/171213.js">        
+        </script>
+        <script>
+            
+            //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+            function openDaumPostcode() {
+                new daum.Postcode({                    
+                    oncomplete: function(data) {
+                        // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.// 우편번호와 주소 정보를 해당 필드에 넣는다.
+                         //5자리 새우편번호 사용
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                        var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+         
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraRoadAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                           extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraRoadAddr !== ''){
+                            extraRoadAddr = ' (' + extraRoadAddr + ')';
+                        }
+                        // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                        if(fullRoadAddr !== ''){
+                            fullRoadAddr += extraRoadAddr;
+                        }
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                        $("#sido").val(data.sido);
+                        $("#gungu").val(data.sigunguCode);
+                        $("#dong").val(data.bcode);
+                        
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        $('#zip_code').val(data.zonecode); //5자리 새우편번호 사용
+                        $('#road_addr').val(data.jibunAddress);
+                        
+                    },shorthand:false
+                }).open({
+                    autoClose: true});
+                    
+                    $("#rest_addr").focus();
+            }
+            
+        </script>
+		<!-- 푸터 들어가는 부분 -->	
+		<% include ./partials/footer %>
+	</body>
+</html>

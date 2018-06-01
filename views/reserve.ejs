@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/javascripts/moment.min.js"></script> 
+<script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
+<link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet" /> 
+
+<style>
+
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+    min-height: 90px;
+    
+}
+a,h1,h2,h3,h4{
+    font-family: 'Jeju Gothic';
+}
+
+li{
+    font-family: 'Jeju Gothic';
+}
+</style>
+  </head>
+  <body>
+  
+    <% include ./partials/top %>
+    <div class="container">
+        <% if(success) { %>
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+        <%}%>
+        <% if(error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <%}%>
+    
+    <form action="/hospital/reserve" method="post">
+        <div class="row">
+            <input type=hidden name="hospital_id" value="<%=hospital_id%>">
+            <h2>의사</h2>
+            <select id="doctors" class="form-control" name="doctors">
+                <% doctors.forEach(function(item,index){ %>
+                    <option value="<%= item.id %>"><%=item.name %></option>
+                <%});%>
+            </select>
+            <h2>날짜</h2>
+                <div class='input-group date' id='datetimepicker1' >
+                    <input id="date" type='text' class="form-control" name='date' />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>  
+
+            <h2>시간</h2>
+            <select id="time" class="form-control" name='time'>
+                    <% times.forEach(function(item,index){ %>
+                        <option value="<%= item.id %>"><%=item.time %></option>
+                    <%});%>
+                
+            </select>
+            <h2>가족목록</h2>
+            <select id="family" class="form-control" name='family'>
+                <option value>본인</option>
+                <% family.forEach(function(item,index){ %>
+                    <option value="<%= item.id %>"><%=item.name %></option>
+                <%});%>
+            </select>
+            
+        </div>
+        <br/>
+    <input type="submit" class="btn btn-primary"/>
+    </form>
+  </div>
+  <% include ./partials/footer %>
+  <script>
+  /*
+  function checkForm()
+  {
+    var selectDoctor = $('#doctors').val();
+    var selectDate = $('#date').val();
+    var hospital_id = $('input[name="hospital_id"').val();
+    var selectFamily = $('#family').val();
+
+    if(selectDoctor=='')
+    {
+
+    }
+  }*/
+
+    console.log(moment());
+    var d = new Date();
+    $('#datetimepicker1').datetimepicker({ 
+      locale : 'ko', 
+      format: "YYYY/MM/DD",
+      minDate : moment(),
+      maxDate : moment().add(4,'days'),
+    });
+
+    function sendAjax()
+    {
+        var selectDoctor = $('#doctors').val();
+        var selectDate = $('#date').val();
+        var hospital_id = $('input[name="hospital_id"').val();
+
+        $.ajax({
+            url : '/hospital/reserve/ajax',
+            dataType:'json',
+            type:'POST',
+            data : {'hospital_id':hospital_id,'doctor':selectDoctor,'date':selectDate},
+            success: function(result){
+                console.log(result.data);
+                var timeSelector = $('#time');
+                timeSelector.empty();
+
+                for(var i=0;i<result.data.length;i++)
+                {
+                    console.log(result.data);
+                    //console.log(result.data[i].id)
+                    timeSelector.append("<option value="+ result.data[i].id +">"+result.data[i].time+"</option>");
+                }
+            }
+        });
+    }
+    $('#datetimepicker1').on('dp.change',function(e){
+        sendAjax();
+    });
+    
+    $('#doctors').change(function(){
+        sendAjax();
+    });
+  </script>
+  </body>
+</html>

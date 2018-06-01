@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		
+		<title>예약 화면</title>
+		
+		<% include ./partials/head %>
+    	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+		
+		<!--RATING 관련..-->
+		<link href="/kartik-v-bootstrap-star-rating-19120d9/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+ 
+		<!-- optionally if you need to use a theme, then include the theme CSS file as mentioned below -->
+		<link href="/kartik-v-bootstrap-star-rating-19120d9/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
+		
+		<!-- important mandatory libraries -->
+		<script src="/kartik-v-bootstrap-star-rating-19120d9/js/star-rating.js" type="text/javascript"></script>
+		
+		<!-- optionally if you need to use a theme, then include the theme JS file as mentioned below -->
+		<script src="/kartik-v-bootstrap-star-rating-19120d9/themes/krajee-svg/theme.js"></script>
+		
+		<!-- optionally if you need translation for your language then include locale file as mentioned below -->
+		<script src="/kartik-v-bootstrap-star-rating-19120d9/js/locales/ko.js"></script> 
+
+    	<style>
+        	
+    	</style>
+    
+	</head>
+	<body>
+		<% include ./partials/top %>
+		<!--// 헤더 들어가는 부분 -->
+		<!-- 모달창 -->
+		<div class="modal fade" id="defaultModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title">알림</h4>
+					</div>
+					<div class="modal-body">
+						<p class="modal-contents"></p>
+						<input type="hidden" name="reserve_id" id="id">
+						<input id="input-id" type="text" class="rating" data-size="sm" lang="ko" >
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<div class="container">
+			<div class="row">
+				
+					<div class="pannel panneel-default">
+						<h2>예약내역</h2>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>병원</th>
+									<th>의사</th>
+									<th>예약자</th>
+									<th>날짜</th>
+									<th>시간</th>
+									<th>비고</th>
+								</tr>
+								<%reserve_list.forEach(function(item,index){%>
+									<tr>
+										<td><%=item.hospital_name%></td>
+										<td><%=item.doctor%></td>
+
+										<td>
+											<%if(item.family==null){%>본인<%} else{%>
+											<%=item.family%>
+											<%}%>
+										</td>
+										<td><%=moment(item.date).format('YYYY-MM-DD')%></td>
+										<td><%=item.time%></td>
+										
+										<%if(item.note=="예약취소"){%>
+											<td><button class="btn btn-danger" onclick='reserve_delete(<%=item.id%>)' name="<%=item.id%>">예약취소</button></td>
+										<%} else if(item.note=="평가"){%>
+											<% if (item.eval_score==null){%>
+											<td><button class="btn btn-success" onclick='reserve_rating(<%=item.id%>)' name="<%=item.id%>">평가가능</button></td>
+											<%} else {%>
+												<td><button class="btn btn-primary" disabled="disabled"  name="<%=item.id%>">평가완료</button></td>
+											<%}%>
+										<%} else if(item.note=="평가불가"){%>
+											<td><button class="btn btn-default" disabled="disabled"  name="<%=item.id%>">평가불가</button></td>
+										<%}%>
+									</tr>
+								<%});%>		
+							<thead>
+						<table>
+						
+					
+				</div>
+			</div>
+		</div>
+		<% include ./partials/footer %>
+	</body>
+	<script>
+		$("#defaultModal").on('hide.bs.modal', function () {
+			location.reload();
+		});
+		function reserve_delete(id)
+		{
+			if(confirm("정말 취소하시겠습니까?"))
+			{
+				var $form = $('<form></form>');
+				$form.attr('action','/hospital/reserve_delete');
+				$form.attr('method','post');
+				$form.attr('target','iFrm');
+				$form.appendTo('body');
+				var id = $('<input type="hidden" value="'+ id +'" name="id">');
+				$form.append(id);
+				$form.submit();
+			}
+		}	
+		function reserve_rating(id)
+		{
+			// initialize with defaults
+			
+			$("#input-id").rating({'size':'sm','language':'ko'});
+			$("input[name=reserve_id]").val(id);
+			//reserve_id = id;
+
+			$.ajax({
+				url : '/hospital/reserve_score',
+				dataType:'json',
+				type:'POST',
+				data : {'reserve_id':id},
+				success: function(results){
+					console.log(results.score);
+					$("#input-id").rating('update',results.score);
+					var modal = $("#defaultModal");
+					var modalContents = $(".modal-contents");
+					modal.modal('show');
+				}
+			});
+			
+		}
+		$('#input-id').on('rating:change', function(event, value, caption) {
+			//console.log($("input[name=reserve_id]").val());
+			reserve_id = $("input[name=reserve_id]").val();
+			score = value;
+			
+			$.ajax({
+				url : '/hospital/reserve_registscore',
+				dataType:'json',
+				type:'POST',
+				data : {'reserve_id':reserve_id,'score':score},
+				success: function(result){
+					console.log(result.data);
+				}
+			});
+		});
+	</script>
+</html>

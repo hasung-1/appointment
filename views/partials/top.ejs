@@ -1,0 +1,37 @@
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/hospital" class="glyphicon glyphicon-align-justify"> 예약</a></li></li>
+                
+                <%if (!user) { %>
+                    <li><a href="/users/signup" class="glyphicon glyphicon-user"> 회원가입</a></li>
+                    <li><a href="/users/login" class="glyphicon glyphicon-log-in"> 로그인</a></li>
+                <% } else { %>
+                    <li><a href="/users/edit" class="glyphicon glyphicon-list-alt"> 정보수정</a></li>   
+                    <%if(user.ishospital==0){%>
+                        <li><a href="/hospital/reserve_list" class="glyphicon glyphicon-list-alt"> 예약내역</a></li>   
+                    <%} else {%>
+                        <li><a href="/hospital/dashboard" class="glyphicon glyphicon-list-alt">대시보드</a></li>   
+                    <%}%>
+                    <li><a href="/users/profile" class="glyphicon glyphicon-user"> <%= user.uname %> 프로필</a></li>
+                    <li><a href="/users/logout" class="glyphicon glyphicon-log-out"> 로그아웃</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+    </nav>

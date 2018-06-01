@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		
+		<title>회원가입 화면</title>
+		
+		<% include ./partials/head %>
+    	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    	
+    	<style>
+        	
+    	</style>
+    
+	</head>
+	<body>
+		<% include ./partials/top %>
+		<div class="container">			
+			<h2>Sign up for a free account</h2>
+			<p class="lead">Select below the type of account you want to create</p>
+			<a href="/users/signup/personal" class="btn btn-success btn-lg" role="button">I'm a 개인</a>
+			<a href="/users/signup/hospital" class="btn btn-info btn-lg" role="button">I'm a 병원</a>		
+		</div>	
+		<% include ./partials/footer %>
+	</body>
+</html>

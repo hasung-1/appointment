@@ -1,0 +1,5 @@
+#데이터 베이스 생성
+create database hospital default character set utf8;
+
+#유저 생성
+grant all privileges on study_db.* to reserve@localhost identified by 'reserve';
