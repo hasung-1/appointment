@@ -421,7 +421,7 @@ router.post('/reserve_chart',checkLogin,function(req,res,next){
     db.query(query,[req.user.uid],(error,results)=>{
         if(error)
             throw error;
-        res.send({data:results,temp:test});
+        res.send({data:results});
         //res.send({result:true,data:results});
     });
     
