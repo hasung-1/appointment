@@ -4,8 +4,7 @@
 <html>
   <head>
     <title><%= title %></title>
-    <meta name="viewport" content="width=device-width, user-scalable=no , initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, user-scalable=no , initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
     <!--bootstrap-select -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
@@ -57,6 +56,18 @@
             height: 50px;
             color: #333;
         }
+        .main_title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+        a.btn_1{
+            padding: 12px 45px;
+            text-align: center;
+            border: none;
+            color: #fff;
+            background: #e74e84;
+            border-radius: 12px;
+        }
 </style>
   </head>
   <body>
@@ -64,8 +75,8 @@
     
     <% include ./partials/top %>
 
-        <div class=" hero_home version_1">
-    <div class="container">
+    <div class=" hero_home version_1">
+        <div class= "container">
             <marquee direction="up" behavior="slide" scrollamount='10'>
                 <h1 align='center'><font color="white"  style="text-shadow:1px 1px 0px black"><strong>Find Hospital</strong></font></h1>
                 <h2></h2>
@@ -82,6 +93,34 @@
         </div>
     </div>
 
+        <div class="container margin_120_95">
+			<div class="main_title">
+				<h2>Discover the <strong>online</strong> appointment!</h2>
+			</div>
+			<div class="row add_bottom_30">
+				<div class="col-lg-4">
+					<div class="box_feat" id="icon_1">
+						<span></span>
+						<h3>Find a Doctor</h3>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="box_feat" id="icon_2">
+						<span></span>
+						<h3>View profile</h3>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="box_feat" id="icon_3">
+						<h3>Book a visit</h3>
+					</div>
+				</div>
+			</div>
+			<!-- /row -->
+			<p class="text-center"><a href="/hospital" class="btn_1"><strong>Find Hospital</strong></a></p>
+
+        </div>
+        
     <!-- Footer  -->
     <% include ./partials/footer.ejs %>
   

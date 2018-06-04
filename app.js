@@ -74,10 +74,29 @@ app.use(function(req,res,next)
   {
     res.locals.user = null;
   }
-  
+  // //병원 계정이라면 병원정보도 넘김
+  // if(req.user.ishospital)
+  // {
+  //   db.query('SELECT * FROM HOSPITAL WHERE ID = (SELECT ID FROM HOSPITAL WHERE UID=?)',[req.user.uid],function(err,results){
+  //     if(results)
+  //     {
+  //         res.locals.hospital = results[0]
+  //     }
+  //     else
+  //     {
+  //         res.locals.hospital = null;
+  //     }
+  //     res.locals.success = req.flash('success').toString();
+  //     res.locals.error = req.flash('error').toString();
+  //     next();
+  //   });
+  // }
+  // else
+  // {
   res.locals.success = req.flash('success').toString();
   res.locals.error = req.flash('error').toString();
   next();
+  //}
 });
 
 

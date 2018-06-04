@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <!--
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
@@ -13,18 +13,25 @@
 -->
     <% include ./partials/head %>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script> 
-
-    <script src="./javascripts/util.js"></script>
-
-
     
 <style>
-
+.navbar{
+    margin-bottom: 0px;
+}
+        .jbMenu {
+            vertical-align: middle;
+            align-self: auto;
+            background-color: #3f4079;
+            padding: 10px 0px;
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            z-index:2;
+          }
+          .jbFixed {
+            position: fixed;
+            top: 0px;
+          }
 .user_name{
     font-size:14px;
     font-weight: bold;
@@ -48,7 +55,51 @@ li{
 .pagination > li > a{
     float:none;
 }
+.container{
+    z-index:1;
+    max-width: 560px;
+}
+.form-group{
+    
+    margin-bottom: 0px;
+}
+.col-md-6{
+    
+}
+@media screen and (max-width: 991px) {
+    #outer_btn_right
+    {
+        display: none;
+    }
+    .container{
+        max-width: 720px;
+    }
+} 
+
 </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+    <script src="./javascripts/util.js"></script>
+    <script>
+      $( document ).ready( function() {
+        var jbOffset = $( '.jbMenu' ).offset();
+        $( window ).scroll( function() {
+          if ( $( document ).scrollTop() > jbOffset.top ) {
+            $( '.jbMenu' ).addClass( 'jbFixed' );
+          }
+          else {
+            $( '.jbMenu' ).removeClass( 'jbFixed' );
+          }
+        });
+      } );
+      
+      $('.selectpicker').selectpicker({
+        style: 'btn-success',
+    });
+    </script>
+
   </head>
   <body>
   <script>
@@ -58,28 +109,33 @@ li{
         }
     </script>
     <% include ./partials/top %>
-    <div id="results">
+
+    <div class="jbMenu">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h4><strong>Showing 10</strong> of 140 results</h4>
+                        <font color="white" >
+                            <h4  id="outer_btn_right" align='left' >Showing <strong>10</strong> of 140 results</h4>
+                        </font>
                 </div>
                 <div class="col-md-6">
-                     <div class="search_bar_list">
-                     <input type="text" class="form-control" placeholder="Ex. Specialist, Name, Doctor...">
-                     <input type="submit" value="Search">
-                 </div>
+                    <div class="input-group form-group">
+                        <input type="text"  class="form-control" placeholder="Ex. Specialist, Name, Doctor...">
+                        <span class="input-group-btn">
+                            <input type="submit" class="btn btn-primary" value="Search">
+                        </span>
+                    </div>
+                        
                 </div>
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
+
     <div class="container">
         <div class="page-header">
             <h1>예약 가능 병원 목록</h1>
         </div>
-    <div class="row">
+        <div class="row">
       <div class="col-md-12">
             <form action="/hospital" class="form-inline">
                 <div class="form-group">
@@ -132,7 +188,7 @@ li{
                 <div class="media">
                     <a href="/hospital/reserve/<%=item.id%>" class="btn btn-primary pull-right">예약하기</a>
                     <a class="media-left" href="#">
-                        <img src="http://lorempixel.com/40/40/people/">
+                        <img  src="http://lorempixel.com/40/40/people/">
                     </a>
                     <div class="media-body">
                         <a href="#">
@@ -178,16 +234,11 @@ li{
         </div>
     </div>
     
-  </div>
+        </div>
   </div>
   <% include ./partials/footer %>
   </body>
-  <script>
-        $('.selectpicker').selectpicker({
-            style: 'btn-success',
-            size: 4
-        });
-
+  <script>        
         function appendUrlParameter(key,value,isSubmit=true)
         {
             if(key!="page")
@@ -203,5 +254,6 @@ li{
             //console.log(append_Url);
             //location.href=append_Url;
         }
+        
   </script>
 </html>

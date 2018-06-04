@@ -182,6 +182,11 @@ router.get('/', function(req, res, next) {
     
   //res.render('Hospital', { title: 'Hospital' });
 });
+
+router.get('/test/',function(req,res){
+    res.render('temp.ejs');
+});
+
 //평가
 router.post('/reserve_score/',function(req,res){
     var reserve_id = req.body.reserve_id;
