@@ -66,36 +66,40 @@ configPassport(app,passport);
 app.use(function(req,res,next)
 {
   res.locals.req = req;
-  //res.locals.query = req.query;
+  
   if(req.user)
+  {
     res.locals.user = req.user;
+    if(req.user.ishospital)
+    {
+      db.query('SELECT * FROM HOSPITAL WHERE ID = (SELECT ID FROM HOSPITAL WHERE UID=?)',[req.user.uid],function(err,results){
+        console.log("if in app");
+        if(results)
+        {
+            res.locals.hospital = results[0]
+        }
+        else
+        {
+            res.locals.hospital = null;
+        }
+        res.locals.success = req.flash('success').toString();
+        res.locals.error = req.flash('error').toString();
+        next();
+      });
+    }
+  }
   else
   {
     res.locals.user = null;
-  }
-  //병원 계정이라면 병원정보도 넘김
-  if(req.user.ishospital)
-  {
-    db.query('SELECT * FROM HOSPITAL WHERE ID = (SELECT ID FROM HOSPITAL WHERE UID=?)',[req.user.uid],function(err,results){
-      if(results)
-      {
-          res.locals.hospital = results[0]
-      }
-      else
-      {
-          res.locals.hospital = null;
-      }
-      res.locals.success = req.flash('success').toString();
-      res.locals.error = req.flash('error').toString();
-      next();
-    });
-  }
-  else
-  {
+
     res.locals.success = req.flash('success').toString();
     res.locals.error = req.flash('error').toString();
     next();
   }
+  //병원 계정이라면 병원정보도 넘김
+  //res.locals.success = req.flash('success').toString();
+  //res.locals.error = req.flash('error').toString();
+  //next();
 });
 
 

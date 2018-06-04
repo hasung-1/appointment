@@ -69,8 +69,10 @@ li{
                      <input type="text" class="form-control" placeholder="Ex. Specialist, Name, Doctor...">
                      <input type="submit" value="Search">
                  </div>
+                 <!-- <div class="col-md-6"> -->
                 </div>
-            </div>
+                <!--<div class="row">-->
+        </div>
             <!-- /row -->
         </div>
         <!-- /container -->
@@ -153,7 +155,7 @@ li{
                     <%if(data.pagination.current==1){%>
                         <li class="page-item disabled"><a class="page-link">처음</a></li>
                     <%} else {%>
-                        <li class="page-item"><a class="page-link" ><a onclick="appendUrlParameter('page','0')">처음</a></li>
+                        <li class="page-item"><a onclick="appendUrlParameter('page','0')">처음</a></li>
                     <%}%>
                     <% var i=(Number(data.pagination.current)>5? Number(data.pagination.current) - 4 : 1)%>
                     <% if(i !== 1){%>
