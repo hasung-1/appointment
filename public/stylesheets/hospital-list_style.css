@@ -1,0 +1,78 @@
+.navbar{
+    margin-bottom: 0px;
+}
+        .jbMenu {
+            vertical-align: middle;
+            align-self: auto;
+            background-color: #3f4079;
+            padding: 10px 0px;
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            z-index:2;
+          }
+          .jbFixed {
+            position: fixed;
+            top: 0px;
+          }
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+    min-height: 90px;
+    
+}
+a,h1,h2,h3,h4{
+    font-family: 'Jeju Gothic';
+}
+
+li{
+    font-family: 'Jeju Gothic';
+}
+.pagination{
+    display:block;
+    text-align:center;
+}
+.pagination > li > a{
+    float:none;
+}
+.form-group{
+    
+    margin-bottom: 0px;
+}
+.container{
+    z-index:1;}
+@media screen and (max-width:device-width){
+    .container{
+        max-width: 800px;
+    }
+}
+@media screen and (max-width: 991px) {
+    #hide_item{
+        display: none;
+    }
+    .container{
+        max-width: 720px;
+    }
+}
+@media screen and (max-width : 767px) {
+
+    .container{
+        max-width: 510px;
+    }
+}
+.media{
+    border: 1px dotted #ccc;
+    min-height: 90px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+}
+#middle{
+    vertical-align: middle;
+    padding-left : 10px;
+}
