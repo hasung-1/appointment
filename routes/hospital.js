@@ -6,7 +6,7 @@ var express = require('express');
 var async = require('async');
 var fs = require('fs');
 var ejs = require('ejs');
-
+var util = require('util');
 var moment = require('moment');
 var app = require('../app');
 var db = require('../config/db');
@@ -182,6 +182,11 @@ router.get('/', function(req, res, next) {
     
   //res.render('Hospital', { title: 'Hospital' });
 });
+
+router.get('/test/',function(req,res){
+    res.render('temp.ejs');
+});
+
 //평가
 router.post('/reserve_score/',function(req,res){
     var reserve_id = req.body.reserve_id;
@@ -231,13 +236,11 @@ router.get('/reserve_list/',function(req,res,next){
                 date,(select time from times where id=time_id) as time,eval_score \
             from reserve a where user_id=" + req.user.uid + ") c order by date desc,time asc";
 
-    //console.log(query);
     db.query(query,function(error,rows,fields){
         if(error)
         {
             throw error;
         }
-        
         res.render('reserve_list',{reserve_list:rows,moment:moment})
     });
 });
@@ -357,7 +360,7 @@ router.get('/dashboard/reserve',checkLogin,function(req,res,next){
     reserveQuery += ' order by date desc, time desc'
 
     reserveContQuery += reserveWhereQuery;
-    
+    console.log(reserveQuery);
     
     var numPerPage = parseInt(req.query.npp,10) || 5;
     var page = parseInt(req.query.page,10) || 1;
@@ -409,8 +412,16 @@ router.get('/dashboard/reserve',checkLogin,function(req,res,next){
 });
 
 router.post('/reserve_chart',checkLogin,function(req,res,next){
-    query = 'SELECT DATE_FORMAT(DATE,"%Y-%m-%d") AS period,COUNT(*) AS count FROM RESERVE WHERE HOSPITAL_ID =\
-    (SELECT ID FROM HOSPITAL WHERE UID=?) AND TO_DAYS(DATE) BETWEEN TO_DAYS(DATE_ADD(NOW(), INTERVAL-5 DAY)) AND TO_DAYS(NOW()) GROUP BY DATE';
+    doctorQuery = 'select distinct(doctor_id),(select name from doctors where id=doctor_id) as doctor_name from reserve WHERE HOSPITAL_ID =\
+    (SELECT ID FROM HOSPITAL WHERE UID=?) AND TO_DAYS(DATE) BETWEEN TO_DAYS(DATE_ADD(NOW(), INTERVAL-10 DAY)) AND TO_DAYS(NOW())'
+
+    query = 'SELECT DATE_FORMAT(DATE,"%Y-%m-%d") AS period,doctor_id,COUNT(*) AS count FROM RESERVE WHERE HOSPITAL_ID =\
+    (SELECT ID FROM HOSPITAL WHERE UID=?) AND TO_DAYS(DATE) BETWEEN TO_DAYS(DATE_ADD(NOW(), INTERVAL-5 DAY)) AND TO_DAYS(NOW()) GROUP BY DATE,doctor_id';
+    chartQuery = 'select period %s from \
+    (\
+    SELECT DATE_FORMAT(DATE,"%Y-%m-%d") AS period,DOCTOR_ID,COUNT(*) AS count FROM RESERVE WHERE HOSPITAL_ID =\
+        (SELECT ID FROM HOSPITAL WHERE UID=?) AND TO_DAYS(DATE) BETWEEN TO_DAYS(DATE_ADD(NOW(), INTERVAL-10 DAY)) AND TO_DAYS(NOW()) GROUP BY DATE,DOCTOR_ID\
+    ) a group by period';
     test = [
         { year: '2008', value: 20 },
         { year: '2009', value: 10 },
@@ -418,12 +429,23 @@ router.post('/reserve_chart',checkLogin,function(req,res,next){
         { year: '2011', value: 5 },
         { year: '2012', value: 20 }
       ];
-    db.query(query,[req.user.uid],(error,results)=>{
+    db.query(doctorQuery , [req.user.uid],(error,doctorList)=>{
         if(error)
             throw error;
-        res.send({data:results});
-        //res.send({result:true,data:results});
+        casewhenQuery = '(select name from doctors where id=%d) as doctor_name,sum(case when doctor_id=%s then count end) as d%s';
+        caseWhenString = '';
+        doctorList.forEach(function(item,index){
+            caseWhenString += (','+util.format(casewhenQuery,item.doctor_id,item.doctor_id,index));
+        });
+        chartQuery = util.format(chartQuery,caseWhenString);
+        console.log(chartQuery)
+        db.query(chartQuery,[req.user.uid],(error,results)=>{
+            if(error)
+                throw error;
+            res.send({doctorList:doctorList,data:results});
+        });
     });
+    
     
     
 });

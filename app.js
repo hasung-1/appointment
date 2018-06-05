@@ -9,6 +9,7 @@ var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var flash = require('connect-flash');
 var dateformat = require('dateformat');
+var db = require('./config/db');
 
 //===== Passport 사용 =====//
 var passport = require('passport');
@@ -19,7 +20,6 @@ const mysql = require('mysql');
 
 var bkfd2Password = require("pbkdf2-password");
 var hasher = bkfd2Password();
-var db = require('./config/db');
 
 var app = express();
 app.use(flash());
@@ -35,6 +35,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 //MySQL 사용 설정
 const options = {
   host:'61.42.20.5',
@@ -48,6 +50,7 @@ const options = {
 //===== Passport 사용 설정 =====//
 // Passport의 세션을 사용할 때는 그 전에 Express의 세션을 사용하는 코드가 있어야 함
 var sessionStore = new MySQLStore(options);
+
 app.use(session({
   secret:'hasung',
   resave:false,
@@ -66,40 +69,38 @@ configPassport(app,passport);
 app.use(function(req,res,next)
 {
   res.locals.req = req;
-  
+  console.log("123123132");
   if(req.user)
   {
     res.locals.user = req.user;
-    if(req.user.ishospital)
-    {
+    console.log("if in app");
+    if(req.user.ishospital) {
       db.query('SELECT * FROM HOSPITAL WHERE ID = (SELECT ID FROM HOSPITAL WHERE UID=?)',[req.user.uid],function(err,results){
-        console.log("if in app");
-        if(results)
-        {
+        console.log("if in app1");
+        if(results) {
             res.locals.hospital = results[0]
-        }
-        else
-        {
+        } else {
             res.locals.hospital = null;
         }
         res.locals.success = req.flash('success').toString();
         res.locals.error = req.flash('error').toString();
+        console.log('if in app2');
         next();
       });
-    }
-  }
-  else
-  {
+    } else {
+      //병원 계정이라면 병원정보도 넘김
+      res.locals.success = req.flash('success').toString();
+      res.locals.error = req.flash('error').toString();
+      next();
+    } 
+  } else {
+    console.log("else in app");
     res.locals.user = null;
 
-    res.locals.success = req.flash('success').toString();
-    res.locals.error = req.flash('error').toString();
     next();
   }
-  //병원 계정이라면 병원정보도 넘김
-  //res.locals.success = req.flash('success').toString();
-  //res.locals.error = req.flash('error').toString();
-  //next();
+  
+  console.log('if in app3');
 });
 
 
@@ -114,6 +115,7 @@ app.use('/users', usersRouter);
 
 var hospitalRouter = require('./routes/hospital');
 app.use('/hospital', hospitalRouter);
+
 
 
 //테스트

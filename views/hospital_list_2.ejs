@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+-->
+    <% include ./partials/head %>
+
+    
+<style>
+.navbar{
+    margin-bottom: 0px;
+}
+        .jbMenu {
+            vertical-align: middle;
+            align-self: auto;
+            background-color: #3f4079;
+            padding: 10px 0px;
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            z-index:2;
+          }
+          .jbFixed {
+            position: fixed;
+            top: 0px;
+          }
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+    min-height: 90px;
+    
+}
+a,h1,h2,h3,h4{
+    font-family: 'Jeju Gothic';
+}
+
+li{
+    font-family: 'Jeju Gothic';
+}
+.pagination{
+    display:block;
+    text-align:center;
+}
+.pagination > li > a{
+    float:none;
+}
+.form-group{
+    
+    margin-bottom: 0px;
+}
+.container{
+    z-index:1;}
+@media screen and (max-width:device-width){
+    .container{
+        max-width: 800px;
+    }
+}
+@media screen and (max-width: 991px) {
+    #hide_item{
+        display: none;
+    }
+    .container{
+        max-width: 720px;
+    }
+}
+@media screen and (max-width : 767px) {
+
+    .container{
+        max-width: 510px;
+    }
+}
+
+</style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+    <script src="./javascripts/util.js"></script>
+    <script>
+      $( document ).ready( function() {
+        var jbOffset = $( '.jbMenu' ).offset();
+        $( window ).scroll( function() {
+          if ( $( document ).scrollTop() > jbOffset.top ) {
+            $( '.jbMenu' ).addClass( 'jbFixed' );
+          }
+          else {
+            $( '.jbMenu' ).removeClass( 'jbFixed' );
+          }
+        });
+      } );
+      
+      $('.selectpicker').selectpicker({
+        style: 'btn-success',
+    });
+    </script>
+
+  </head>
+  <body>
+  <script>
+        function getSearchURL()
+        {
+            return "/hospital/1";
+        }
+    </script>
+    <% include ./partials/top %>
+
+    <div class="jbMenu">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" id="hide_item" >
+                        <font color="white" >
+                            <h4  align='left' >Showing <strong>10</strong> of 140 results</h4>
+                        </font>
+                </div>
+
+                <div class="col-md-3" id="hide_item" >
+                    <select name="subject"  class="selectpicker" data-size="10">
+                        <option value="-1">전체</option>
+                        <% subject.forEach(function(item,index){ %>
+                            <option value="<%= item.code %>"><%=item.subject %></option>
+                        <%});%>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <form action="/hospital">
+                    <div class="input-group form-group">
+                        <input type="text"  class="form-control" placeholder="Ex. Specialist, Name, Doctor..." name="search_text" value="<%=req.query.search_text%>" >
+                        <span class="input-group-btn">
+                            <input type="submit" class="btn btn-primary" value="Search">
+                        </span>
+                    </div>        
+                        <input type="hidden" name="sido" value="<%=req.query.sido%>"/>
+                        <input type="hidden" name="gungu" value="<%=req.query.gungu%>"/>
+                        <input type="hidden" name="page" value="<%=req.query.page%>"/>
+                    </form>    
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <div class="container">
+        <ul class="breadcrumb" style="margin-top:10px">
+            <li><a href="/hospital">전국</a></li>
+            <%if(breadCrumbs.sidoName){%>
+                <li><a href="#"><%=breadCrumbs.sidoName%></a></li>
+            <%}%>
+            <%if(breadCrumbs.gunguName){%>
+                <li><a href="#"><%=breadCrumbs.gunguName%></a></li>
+            <%}%>
+        </ul>
+        <div style="overflow:hidden">
+            <% sido.forEach(function(item, index) { %>
+                <div style="width:25%;float:left;background">
+                    <a href="#" onclick="appendUrlParameter('sido','<%=item.sidoCode%>')"><%=item.sidoName%></a>
+                </div>
+            <% }) %>
+            
+            <% gungu.forEach(function(item, index) { %>
+                <div style="width:25%;float:left;background">
+                    <a href="#" onclick="appendUrlParameter('sido','<%=item.sidoCode%>',false);appendUrlParameter('gungu','<%=item.gunguCode%>')"><%=item.gunguName%></a>
+                </div>
+            <% }) %>
+        </div>
+        <br>
+            
+        <hr/>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="comments-list">
+                        <!--{% for hospital in hospital_list %}-->
+                        <% data.results.forEach(function(item,index){%>
+                            <div class="media">
+                                <a href="/hospital/reserve/<%=item.id%>" class="btn btn-primary pull-right">예약하기</a>
+                                <a class="media-left" href="#">
+                                    <img  src="http://lorempixel.com/75/100/people/">
+                                </a>
+                                <div class="media-body">
+                                    <a href="#">
+                                        <h4 class="media-heading user_name"><%=item.name%></h4>
+                                    </a>
+                                    <ul>
+                                        <li>전화번호 - <%=item.tel%></li>
+                                        <li>주소 - <%=item.addr%></li>
+                                        <li>진료과목 - <%=item.subjects%></li>
+                                        <li>평가 점수 - <%=item.score%></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        <%});%>
+                </div>
+            <div class="container">
+                <ul class="pagination">
+                        <%if(data.pagination.current==1){%>
+                            <li class="page-item disabled"><a class="page-link">처음</a></li>
+                        <%} else {%>
+                            <li class="page-item"><a class="page-link" ><a onclick="appendUrlParameter('page','0')">처음</a></li>
+                        <%}%>
+                        <% var i=(Number(data.pagination.current)>5? Number(data.pagination.current) - 4 : 1)%>
+                        <% if(i !== 1){%>
+                            <li class="page-item disabled"><a>...</a></li>
+                        <%}%>
+                        <% for(;i<=(Number(data.pagination.current) +4) && i<=data.pagination.numPages;i++){%>
+                            <% if(i!=data.pagination.current){ %>
+                                <li class="page-item"><a class="page-link" onclick="appendUrlParameter('page',<%=i%>)"> <%=i%></a></li>
+                            <%} else { %>
+                                <li class="page-item active"><a class="page-link" onclick="appendUrlParameter('page',<%=i%>)"> <%=i%></a></li>
+                            <% } %>
+                            <% if(i==Number(data.pagination.current) + 4 && i < data.pagination.numPages) {%>
+                                <li class="disabled"><a>...</a></li>
+                            <%}%>
+                        <%}%>
+                        <%if(data.pagination.current==data.pagination.numPages){%>
+                            <li class="page-item disabled"><a class="page-link">마지막</a></li>
+                        <%} else {%>
+                            <li class="page-item"><a class="page-link" onclick="appendUrlParameter('page','<%=data.pagination.numPages%>')">마지막</a></li>
+                        <%}%>
+                </ul>
+            </div>
+        </div>
+    
+        </div>
+    </div>
+
+    <% include ./partials/footer %>
+  </body>
+  <script>        
+        function appendUrlParameter(key,value,isSubmit=true)
+        {
+            if(key!="page")
+            {
+                $('input[name=page]').val(0);    
+            }
+            $('input[name=' + key + ']').val(value);
+            if(isSubmit)
+            {
+                $('form').submit();
+            }   
+            //var append_Url = updateUrlParameter(url,key,value);
+            //console.log(append_Url);
+            //location.href=append_Url;
+        }
+        
+  </script>
+</html>

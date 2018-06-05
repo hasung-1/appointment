@@ -213,7 +213,9 @@
             data : {},
             success: function(results){
                 console.log(results.data);
-                
+                results.data.forEach(function(item,index){
+                    console.log(item)
+                });
     
                 new Morris.Line({
                     // ID of the element in which to draw the chart.
@@ -225,11 +227,11 @@
                     xkey: 'period',
                     parseTime: false,
                     // A list of names of data record attributes that contain y-values.
-                    ykeys: ['count'],
-                    //xLabels:['date'],
+                    ykeys: ['d0','d1','d2'],
+                    //xLabels:['d0','d1','d2'],
                     // Labels for the ykeys -- will be displayed when you hover over the
                     // chart.
-                    labels: ['건수'],
+                    labels: ['d0','d1','d2'],
                     xLabelAngle: 60
                   });
             }
