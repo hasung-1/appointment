@@ -2,40 +2,42 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>대시보드-예약내역</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>대시보드-예약내역</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <script src="/javascripts/plugins/morris/raphael.min.js"></script>
+    <script src="/javascripts/plugins/morris/raphael.min.js"></script>
     <script src="/javascripts/plugins/morris/morris.min.js"></script>
 
     <!-- Morris Charts CSS -->
     <link href="/stylesheets/plugins/morris.css" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
-  <link href="/stylesheets/sb-admin.css" rel="stylesheet">
-  
-  <!-- Custom Fonts -->
-  <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <script src="/javascripts/moment.min.js"></script> 
-  <script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
-  <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet" /> 
-  
-  <!--bootstrap-select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-  
+    <!-- Custom styles for this template-->
+    <link href="/stylesheets/sb-admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="/javascripts/moment.min.js"></script>
+    <script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
+    <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <!--bootstrap-select -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+
 </head>
 
 <body>
+
 
     <div id="wrapper">
 
@@ -54,7 +56,10 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-envelope"></i>
+                        <b class="caret"></b>
+                    </a>
                     <ul class="dropdown-menu message-dropdown">
                         <li class="message-preview">
                             <a href="#">
@@ -63,9 +68,11 @@
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading">
+                                            <strong>John Smith</strong>
                                         </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p class="small text-muted">
+                                            <i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
                                     </div>
                                 </div>
@@ -78,14 +85,17 @@
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading">
+                                            <strong>John Smith</strong>
                                         </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p class="small text-muted">
+                                            <i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
                                     </div>
                                 </div>
                             </a>
                         </li>
+
                         <li class="message-preview">
                             <a href="#">
                                 <div class="media">
@@ -93,9 +103,11 @@
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading">
+                                            <strong>John Smith</strong>
                                         </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p class="small text-muted">
+                                            <i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
                                     </div>
                                 </div>
@@ -106,22 +118,29 @@
                         </li>
                     </ul>
                 </li>
-                
+
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user"></i> John Smith
+                        <b class="caret"></b>
+                    </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="#">
+                                <i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                            <a href="#">
+                                <i class="fa fa-fw fa-envelope"></i> Inbox</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            <a href="#">
+                                <i class="fa fa-fw fa-gear"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="#">
+                                <i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -130,17 +149,23 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="/hospital/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="/hospital/dashboard">
+                            <i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="/hospital/dashboard/chart"><i class="fa fa-fw fa-bar-chart-o"></i> 차트</a>
+                        <a href="/hospital/dashboard/chart">
+                            <i class="fa fa-fw fa-bar-chart-o"></i> 차트</a>
                     </li>
                     <li class="active">
-                        <a href="/hospital/dashboard/reserve"><i class="fa fa-fw fa-table"></i> 예약내역</a>
+                        <a href="/hospital/dashboard/reserve">
+                            <i class="fa fa-fw fa-table"></i> 예약내역</a>
                     </li>
-                 
+
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo">
+                            <i class="fa fa-fw fa-arrows-v"></i> Dropdown
+                            <i class="fa fa-fw fa-caret-down"></i>
+                        </a>
                         <ul id="demo" class="collapse">
                             <li>
                                 <a href="#">Dropdown Item</a>
@@ -150,7 +175,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -164,7 +189,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            <%=hospital.name%> <small>Appointment List</small>
+                            <%=hospital.name%>
+                                <small>Appointment List</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li>
@@ -176,34 +202,70 @@
                         </ol>
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 예약 내역</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form name="filter" action="/hospital/dashboard/reserve">
-                                    
-                                    
-                                    
+                <form name="filter" action="/hospital/dashboard/reserve">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> 예약 내역</h3>
+                                </div>
+                                <div class="panel-body">
+
                                     <div class="row">
-                                        <div class='col-md-5'>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <select name="doctor" class="selectpicker" data-size="10">
+                                                    <% if(req.query.doctor){%>
+                                                        <%if(req.query.doctor==-1){%>
+                                                            <option value="-1" selected>전체</option>
+                                                        <%} else {%>
+                                                            <option value="-1">전체</option>
+                                                        <%}%>
+
+                                                        <%doctorList.forEach(function(item,index){%>
+                                                            <%if(item.id==req.query.doctor){%>
+                                                                <option value="<%=item.id%>" selected>
+                                                                    <%=item.name%>
+                                                                </option>
+                                                            <%} else {%>
+                                                                <option value="<%=item.id%>">
+                                                                    <%=item.name%>
+                                                                </option>
+                                                            <%}%>
+                                                        <%})%>
+                                                    <%} else {%>
+                                                        <option value="-1">전체</option>
+                                                        <%doctorList.forEach(function(item,index){%>
+                                                            <option value="<%=item.id%>">
+                                                                <%=item.name%>
+                                                            </option>
+                                                        <%})%>
+                                                    <%}%>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="page" value="<%=req.query.page%>" />
+
+
+                                    <div class="row">
+                                        <div class='col-md-2'>
                                             <div class="form-group">
                                                 <div class='input-group date' id='datetimepicker6'>
-                                                    <input type='text' name="minDate" class="form-control" value="<%=req.query.minDate%>"/>
+                                                    <input type='text' name="minDate" class="form-control" value="<%=req.query.minDate%>" />
                                                     <span class="input-group-addon">
                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class='col-md-5'>
+
+                                        <div class='col-md-2'>
                                             <div class="form-group">
                                                 <div class='input-group date' id='datetimepicker7'>
-                                                    <input type='text' name="maxDate" class="form-control" value="<%=req.query.maxDate%>"/>
+                                                    <input type='text' name="maxDate" class="form-control" value="<%=req.query.maxDate%>" />
                                                     <span class="input-group-addon">
                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                     </span>
@@ -211,73 +273,147 @@
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>예약번호</th>
-                                                <th>날 짜</th>
-                                                <th>시 간</th>
-                                                <th>담당 의사</th>
-                                                <th>예약자</th>
-                                                <th>비고</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%reserveList.forEach(function(item,index){%>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td><%=item.id%></td>
-                                                    <td><%=item.date%></td>
-                                                    <td><%=item.time%></td>
-                                                    <td><%=item.doctor_name%></td>
-                                                    <td><%=item.name%></td>
-                                                    <td></td>
+                                                    <th>예약번호</th>
+                                                    <th>날 짜</th>
+                                                    <th>시 간</th>
+                                                    <th>담당 의사</th>
+                                                    <th>예약자</th>
+                                                    <th>비고</th>
                                                 </tr>
-                                            <%})%>
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                <%console.log(data)%>
+                                                    <%data.results.forEach(function(item,index){%>
+                                                        <tr>
+                                                            <td>
+                                                                <%=item.id%>
+                                                            </td>
+                                                            <td>
+                                                                <%=item.date%>
+                                                            </td>
+                                                            <td>
+                                                                <%=item.time%>
+                                                            </td>
+                                                            <td>
+                                                                <%=item.doctor_name%>
+                                                            </td>
+                                                            <td>
+                                                                <%=item.name%>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <%})%>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="container">
+                                        <ul class="pagination">
+                                            <%if(data.pagination.current==1){%>
+                                                <li class="page-item disabled">
+                                                    <a class="page-link">처음</a>
+                                                </li>
+                                            <%} else {%>
+                                                <li class="page-item">
+                                                    <a onclick="appendUrlParameter('page','0')">처음</a>
+                                                </li>
+                                            <%}%>
+                                            <% var i=(Number(data.pagination.current)>5? Number(data.pagination.current) - 4 : 1)%>
+                                                <% if(i !== 1){%>
+                                                    <li class="page-item disabled">
+                                                        <a>...</a>
+                                                    </li>
+                                                <%}%>
+                                                <% for(;i<=(Number(data.pagination.current) +4) && i<=data.pagination.numPages;i++){%>
+                                                    <% if(i!=data.pagination.current){ %>
+                                                        <li class="page-item">
+                                                            <a class="page-link" onclick="appendUrlParameter('page',<%=i%>)">
+                                                                <%=i%>
+                                                            </a>
+                                                        </li>
+                                                    <%} else { %>
+                                                        <li class="page-item active">
+                                                            <a class="page-link" onclick="appendUrlParameter('page',<%=i%>)">
+                                                                <%=i%>
+                                                            </a>
+                                                        </li>
+                                                    <% } %>
+                                                    <% if(i==Number(data.pagination.current) + 4 && i < data.pagination.numPages) {%>
+                                                        <li class="disabled">
+                                                            <a>...</a>
+                                                        </li>
+                                                    <%}%>
+                                                <%}%>
+                                                <%if(data.pagination.current==data.pagination.numPages){%>
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link">마지막</a>
+                                                    </li>
+                                                <%} else {%>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                                onclick="appendUrlParameter('page','<%=data.pagination.numPages%>')">마지막</a>
+                                                    </li>
+                                                <%}%>
+                                        </ul>
+                                    </div>
                                 </div>
-                                        
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.row -->
-                <!--
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>Like SB Admin?</strong> Try out <a href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB Admin 2</a> for additional features!
-                        </div>
-                    </div>
-                </div>
-                -->
-                <!-- /.row -->
+                </form>
+            
 
-                
-    
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker6').datetimepicker({
-                defaultDate:moment(),
-                format: "YYYY-MM-DD",
-            });
-            $('#datetimepicker7').datetimepicker({
-                defaultDate:moment(),
-                format: "YYYY-MM-DD",
-                useCurrent: false //Important! See issue #1075
-            });
-            $("#datetimepicker6").on("dp.change", function (e) {
-                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-                $('form[name="filter"').submit();
-            });
-            $("#datetimepicker7").on("dp.change", function (e) {
-                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-            });
-        });
-    </script>
+
+
+                <script type="text/javascript">
+                    function appendUrlParameter(key, value, isSubmit = true) {
+                        $('input[name=' + key + ']').val(value);
+                        if (isSubmit) {
+                            $('form').submit();
+                        }
+                        //var append_Url = updateUrlParameter(url,key,value);
+                        //console.log(append_Url);
+                        //location.href=append_Url;
+                    }
+                    $(function () {
+
+                        $('.selectpicker').selectpicker({
+                            style: 'btn-success',
+                            size: 4
+                        });
+                        $("select[name='doctor']").on('changed.bs.select', function (e, clickedIndex, newValue, oldValue) {
+                            // do something...
+                            console.log("오나");
+                            if (newValue) {
+                                var Value = $("select[name='doctor'] option:selected").val()
+                                $('form[name="filter"').submit();
+                            }
+                        });
+
+                        $('#datetimepicker6').datetimepicker({
+                            defaultDate: moment(),
+                            format: "YYYY-MM-DD",
+                        });
+                        $('#datetimepicker7').datetimepicker({
+                            defaultDate: moment(),
+                            format: "YYYY-MM-DD",
+                            useCurrent: false //Important! See issue #1075
+                        });
+                        $("#datetimepicker6").on("dp.change", function (e) {
+                            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                            $('form[name="filter"').submit();
+                        });
+                        $("#datetimepicker7").on("dp.change", function (e) {
+                            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                            $('form[name="filter"').submit();
+                        });
+
+                    });
+                </script>
 </body>
 
 </html>
