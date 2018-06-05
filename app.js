@@ -9,6 +9,7 @@ var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var flash = require('connect-flash');
 var dateformat = require('dateformat');
+var db = require('./config/db');
 
 //===== Passport 사용 =====//
 var passport = require('passport');
@@ -49,6 +50,7 @@ var temp1 = 1;
 //===== Passport 사용 설정 =====//
 // Passport의 세션을 사용할 때는 그 전에 Express의 세션을 사용하는 코드가 있어야 함
 var sessionStore = new MySQLStore(options);
+
 app.use(session({
   secret:'hasung',
   resave:false,
