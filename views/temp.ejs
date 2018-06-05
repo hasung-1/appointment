@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery</title>
+    <style>
+        .jbTitle {
+          text-align: center;
+        }
+        .jbMenu {
+          text-align: center;
+          background-color: yellow;
+          padding: 10px 0px;
+          width: 100%;
+        }
+        .jbFixed {
+          position: fixed;
+          top: 0px;
+        }
+  .t_menu{
+        padding: 3px 10px;
+      
+  }
+  .t_menu li{list-style:none; float:left; width:80px; margin: 0 10px;}
+    </style>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $( document ).ready( function() {
+          var jbOffset = $( '.jbMenu' ).offset();
+          $( window ).scroll( function() {
+            if ( $( document ).scrollTop() > jbOffset.top ) {
+              $( '.jbMenu' ).addClass( 'jbFixed' );
+            }
+            else {
+              $( '.jbMenu' ).removeClass( 'jbFixed' );
+            }
+          });
+        } );
+    </script>
+  </head>
+  <body>
+      <div class="jbTitle">
+          <h1>Site Title</h1>
+        </div>
+        <div class="jbMenu">
+            <ul class="t_menu">
+                <li>menu 1</li>
+                <li>menu 2</li>
+                <li>menu 3</li>
+                <li>menu 4</li>
+                <li>menu 5</li>
+                
+            </ul>
+        </div>
+        <div class="jbContent">
+
+        <br>
+        <br>dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        <br>
+        <br>dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        <input type="text" name="" id="">
+        <br>
+        <br>dump
+        <input type="text" name="" id="">
+        <br>
+        dump
+        <br>
+        dump
+        <input type="button" value="">
+        <br>
+        dump
+        <br>
+        dump
+        <input type="text" name="" id="">
+        <br>
+        <br>
+        <br>dump
+        <br>
+        dump
+        <input type="text" name="" id="">
+        <br>
+        dump
+        <br>
+        <input type="text" name="" id="">
+        dump
+        <br>
+        dump
+        <br>
+        <br>
+        <br>dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        <br>
+        <br>dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        <br>
+        <br>dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        <br>
+        <br>dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+        dump
+        <br>
+    </div>
+  </body>
+</html>

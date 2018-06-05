@@ -2,12 +2,17 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		
 		<title>회원정보 수정 화면</title>
 		
 		<% include ./partials/head %>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    	<link rel="stylesheet" href="/netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+        
+        <!--bootstrap-select -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
     	
     
 	</head>
@@ -112,10 +117,12 @@
                     <label for="inputAddress" class="col-lg-2 control-label">주소</label>
                     
                     <div class="col-lg-10">
-                        <p>
+                        <div class="input-group">
                             <input id="zip_code" readonly="" name="post1" value='<%=user.uzip%>' placeholder="우편번호"  class="form-control">
-                            <input onclick="openDaumPostcode()" type="button" value="우편번호찾기" class="btn btn-primary">
-                        </p>
+                            <span class="input-group-btn"></span>
+                                <input onclick="openDaumPostcode()" type="button" value="우편번호찾기" class="btn btn-primary">
+                            </span>
+                        </div>
                         <p>
                             <input class="form-control" id="road_addr" readonly=""  name="addr" placeholder="법정동 주소" >
                             <input class="form-control" id="rest_addr" name="addr_" placeholder="나머지 주소">

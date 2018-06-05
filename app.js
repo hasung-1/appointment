@@ -9,6 +9,7 @@ var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var flash = require('connect-flash');
 var dateformat = require('dateformat');
+var db = require('./config/db');
 
 //===== Passport 사용 =====//
 var passport = require('passport');
@@ -19,7 +20,6 @@ const mysql = require('mysql');
 
 var bkfd2Password = require("pbkdf2-password");
 var hasher = bkfd2Password();
-var db = require('./config/db');
 
 var app = express();
 app.use(flash());
@@ -35,6 +35,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 //MySQL 사용 설정
 const options = {
   host:'61.42.20.5',
@@ -48,6 +50,7 @@ var temp1 = 1;
 //===== Passport 사용 설정 =====//
 // Passport의 세션을 사용할 때는 그 전에 Express의 세션을 사용하는 코드가 있어야 함
 var sessionStore = new MySQLStore(options);
+
 app.use(session({
   secret:'hasung',
   resave:false,
@@ -112,6 +115,7 @@ app.use('/users', usersRouter);
 
 var hospitalRouter = require('./routes/hospital');
 app.use('/hospital', hospitalRouter);
+
 
 
 //테스트
