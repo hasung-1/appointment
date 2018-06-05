@@ -46,7 +46,6 @@ const options = {
   database:'hospital'
 };
 
-var temp1 = 1;
 //===== Passport 사용 설정 =====//
 // Passport의 세션을 사용할 때는 그 전에 Express의 세션을 사용하는 코드가 있어야 함
 var sessionStore = new MySQLStore(options);
