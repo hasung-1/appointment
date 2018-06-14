@@ -17,6 +17,20 @@
     <link rel="stylesheet" href="/stylesheets/hospital-list_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <!--RATING 관련..-->
+    <link href="/kartik-v-bootstrap-star-rating-19120d9/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+    
+    <!-- optionally if you need to use a theme, then include the theme CSS file as mentioned below -->
+    <link href="/kartik-v-bootstrap-star-rating-19120d9/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- important mandatory libraries -->
+    <script src="/kartik-v-bootstrap-star-rating-19120d9/js/star-rating.js" type="text/javascript"></script>
+
+    <!-- optionally if you need to use a theme, then include the theme JS file as mentioned below -->
+    <script src="/kartik-v-bootstrap-star-rating-19120d9/themes/krajee-svg/theme.js"></script>
+
+    <!-- optionally if you need translation for your language then include locale file as mentioned below -->
+    <script src="/kartik-v-bootstrap-star-rating-19120d9/js/locales/ko.js"></script> 
 
     <script src="./javascripts/util.js"></script>
     <script>
@@ -52,7 +66,7 @@
             <div class="row">
                 <div class="col-md-4" id="hide_item" >
                         <font color="white" >
-                            <h4  align='left' >Showing <strong>10</strong> of 140 results</h4>
+                            <h4  align='left' >Showing <strong><%=data.results.length%></strong> of <%=data.pagination.numRows%> results</h4>
                         </font>
                 </div>
 
@@ -106,7 +120,7 @@
             <% }) %>
         </div>
         <br>
-            
+        
         <hr/>
         <div class="row">
             <div class="col-md-12" style="margin-bottom:20px">
@@ -127,7 +141,14 @@
                                                 </ul>
                                             </div>
                                             <hr color="#ccc"/>
-                                        <font size='5px' color="#3ec2ff">평가 점수 - <%=item.score%></font>
+                                        
+                                            <%if(item.score){%>
+                                                <input id="input-id" type="text" class="rating" readOnly=true value=<%=item.score%> data-size="xs" lang="ko" >
+                                            <%} else {%>
+                                                <input id="input-id" type="text" class="rating" readOnly=true value=0 data-size="xs" lang="ko" >
+                                            <%}%>
+                                            
+                                        
                                         <a href="/hospital/reserve/<%=item.id%>" class="btn btn-primary pull-right">예약</a>
                                     </div>
                                 </div>
@@ -170,7 +191,16 @@
 
     <% include ./partials/footer %>
   </body>
-  <script>        
+  <script> 
+      
+        //$('#input-3').rating({displayOnly: true, step: 0.5, value:3});
+        /*
+        $(document).on('ready', function(){
+            console.log("여기와");
+            $('#input-3').rating({displayOnly: true, step: 0.5, value:3});
+            
+        });       */
+      
         function appendUrlParameter(key,value,isSubmit=true)
         {
             if(key!="page")
@@ -186,6 +216,8 @@
             //console.log(append_Url);
             //location.href=append_Url;
         }
+        // with plugin options
+        
         
   </script>
 </html>

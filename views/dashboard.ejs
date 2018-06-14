@@ -41,7 +41,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">HOSPITAL</a>
+                <a class="navbar-brand" href="/">HOSPITAL</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -177,8 +177,6 @@
                 </div>
                 -->
                 <!-- /.row -->
-                <%console.log("!234");%>
-                <%console.log("123",hospital)%>
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
@@ -195,7 +193,7 @@
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-left"><a href="/hospital/dashboard/reserve/?minDate=<%=moment().format('YYYY-MM-DD')%>&maxDate=<%=moment().format('YYYY-MM-DD')%>">View Details</a></span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
@@ -217,7 +215,7 @@
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-left"><a href="/hospital/dashboard/reserve/?minDate=<%=moment().add(1,'day').format('YYYY-MM-DD')%>&maxDate=<%=moment().add(1,'day').format('YYYY-MM-DD')%>">View Details</a></span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
@@ -286,7 +284,7 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
+                <!--
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="panel panel-default">
@@ -410,7 +408,7 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
+            
             </div>
             <!-- /.container-fluid -->
 
@@ -424,7 +422,7 @@
 <script>
     console.log('ajax');
     $.ajax({
-        url : '/hospital/reserve_chart',
+        url : '/hospital/reserve_chart_total',
         dataType:'json',
         type:'POST',
         data : {},

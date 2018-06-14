@@ -51,7 +51,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">HOSPITAL</a>
+                <a class="navbar-brand" href="/">HOSPITAL</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -249,31 +249,31 @@
                                     </div>
                                     <input type="hidden" name="page" value="<%=req.query.page%>" />
 
+                                    <form>
+                                        <div class="row">
+                                            <div class='col-md-2'>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker6'>
+                                                        <input type='text' name="minDate" class="form-control" value="<%=req.query.minDate%>" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                    <div class="row">
-                                        <div class='col-md-2'>
-                                            <div class="form-group">
-                                                <div class='input-group date' id='datetimepicker6'>
-                                                    <input type='text' name="minDate" class="form-control" value="<%=req.query.minDate%>" />
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
+                                            <div class='col-md-2'>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker7'>
+                                                        <input type='text' name="maxDate" class="form-control" value="<%=req.query.maxDate%>" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class='col-md-2'>
-                                            <div class="form-group">
-                                                <div class='input-group date' id='datetimepicker7'>
-                                                    <input type='text' name="maxDate" class="form-control" value="<%=req.query.maxDate%>" />
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    </form>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover table-striped">
                                             <thead>
@@ -387,7 +387,6 @@
                         });
                         $("select[name='doctor']").on('changed.bs.select', function (e, clickedIndex, newValue, oldValue) {
                             // do something...
-                            console.log("오나");
                             if (newValue) {
                                 var Value = $("select[name='doctor'] option:selected").val()
                                 $('form[name="filter"').submit();
