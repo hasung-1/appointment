@@ -49,7 +49,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">HOSPITAL</a>
+                <a class="navbar-brand" href="/">HOSPITAL</a>
+
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -187,6 +188,30 @@
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 차트</h3>
                             </div>
                             <div class="panel-body">
+                                    <div class="row">
+                                            <div class='col-md-2'>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker6'>
+                                                        <input type='text' name="minDate" class="form-control" value="<%=req.query.minDate%>" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class='col-md-2'>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker7'>
+                                                        <input type='text' name="maxDate" class="form-control" value="<%=req.query.maxDate%>" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                 <div id="morris-area-chart"></div>
                                         
                             </div>
@@ -208,37 +233,96 @@
 
                 
     
-    <script type="text/javascript">
-        $.ajax({
-            url : '/hospital/reserve_chart',
-            dataType:'json',
-            type:'POST',
-            data : {},
-            success: function(results){
-                console.log(results.data);
-                results.data.forEach(function(item,index){
-                    console.log(item)
+    <script type="text/javascript">       
+            var minDate,maxDate;
+            $(function () {
+                
+                $('.selectpicker').selectpicker({
+                    style: 'btn-success',
+                    size: 4
+                });
+                $("select[name='doctor']").on('changed.bs.select', function (e, clickedIndex, newValue, oldValue) {
+                    // do something...
+                    if (newValue) {
+                        var Value = $("select[name='doctor'] option:selected").val()
+                        $('form[name="filter"').submit();
+                    }
                 });
     
-                new Morris.Line({
-                    // ID of the element in which to draw the chart.
-                    element: 'morris-area-chart',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: results.data,
-                    // The name of the data record attribute that contains x-values.
-                    xkey: 'period',
-                    parseTime: false,
-                    // A list of names of data record attributes that contain y-values.
-                    ykeys: ['d0','d1','d2'],
-                    //xLabels:['d0','d1','d2'],
-                    // Labels for the ykeys -- will be displayed when you hover over the
-                    // chart.
-                    labels: ['d0','d1','d2'],
-                    xLabelAngle: 60
-                  });
+                $('#datetimepicker6').datetimepicker({
+                    defaultDate: moment().add(-10,"days"),
+                    format: "YYYY-MM-DD",
+                });
+                $('#datetimepicker7').datetimepicker({
+                    defaultDate: moment(),
+                    format: "YYYY-MM-DD",
+                    useCurrent: false //Important! See issue #1075
+                });
+                $("#datetimepicker6").on("dp.change", function (e) {
+                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                    console.log('change');
+                    console.log($('#datetimepicker7').val());    
+                    getChartData();
+                    //$('form[name="filter"').submit();
+                });
+                $("#datetimepicker7").on("dp.change", function (e) {
+                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                    console.log('change');
+                    //maxDate=e.date;
+                    //console.log('maxDate',maxDate);
+                    getChartData();
+                    //$('form[name="filter"').submit();
+                });
+                getChartData();
+    
             }
         });
+                
+        function getChartData()
+        {
+            
+            
+            $('#morris-area-chart').empty();
+            //console.log($('#datetimepicker6').data("DateTimePicker").date());
+            console.log($('#datetimepicker6').data("DateTimePicker").date().format('YYYY-MM-DD'));
+            console.log($('#datetimepicker6').data("DateTimePicker").date()._d);
+            console.log($('#datetimepicker7').data("DateTimePicker").date()._d);
+            $.ajax({
+                url : '/hospital/reserve_chart',
+                dataType:'json',
+                type:'POST',
+                data : {'minDate':$('#datetimepicker6').data("DateTimePicker").date().format('YYYY-MM-DD'),
+                'maxDate':$('#datetimepicker7').data("DateTimePicker").date().format('YYYY-MM-DD')},
+                success: function(results){
+                    var doctorList = [];
+                    var dummyList = [];
+                    //console.log(results);
+                    results.doctorList.forEach(function(item,index){
+                        doctorList.push(item.doctor_name);
+                        dummyList.push("d" + index);
+                    });
+                    new Morris.Line({
+                        // ID of the element in which to draw the chart.
+                        element: 'morris-area-chart',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: results.data,
+                        // The name of the data record attribute that contains x-values.
+                        xkey: 'period',
+                        parseTime: false,
+                        // A list of names of data record attributes that contain y-values.
+                        ykeys: dummyList,
+                        //xLabels:['d0','d1','d2'],
+                        // Labels for the ykeys -- will be displayed when you hover over the
+                        // chart.
+                        labels: doctorList,
+                        xLabelAngle: 60
+                      });
+                }
+            });
+        }
+        
+
     </script>
 </body>
 
