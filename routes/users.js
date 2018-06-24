@@ -151,20 +151,41 @@ module.exports = function(passport) {
     router.route('/profile').get(function(req, res) {
         console.log('/profile 패스 요청됨.');
 
-        // 인증된 경우, req.user 객체에 사용자 정보 있으며, 인증안된 경우 req.user는 false값임
-
         // 인증 안된 경우 
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/');
-        } else {
+        }
+        // 인증된 경우, req.user 객체에 사용자 정보 있으며, 인증안된 경우 req.user는 false값임
+        else {
             console.log('사용자 인증된 상태임.');
             console.log('/profile 패스 요청됨.');
-            if (Array.isArray(req.user)) {
-                res.render('profile.ejs',{user:req.user});
-            } else {
-                res.render('profile.ejs',{user:req.user});
-            }
+
+            async.parallel(
+                {
+                    hos_sub_data : (callback) => db.query('select * from hospital_subject where hospital_id = ' + req.user.uid,callback),
+                    hos_doc_data : (callback) => db.query('select * from doctors where hospital_id = ' + req.user.uid,callback)
+                },(err,results) => {
+                    if (err){
+                        console.log(err);
+                    }
+                    else{
+                        if (Array.isArray(req.user)) {
+                            res.render('profile.ejs',{
+                                user : req.user,
+                                hos_sub : results['hos_sub_data'][0],
+                                hos_doc : results['hos_doc_data'][0]
+                            });
+                        } else {
+                            res.render('profile.ejs',{
+                                user:req.user,
+                                hos_sub : results['hos_sub_data'][0],
+                                hos_doc : results['hos_doc_data'][0]
+                            });
+                        }
+                    }
+                }
+            );
         }
     });
 
