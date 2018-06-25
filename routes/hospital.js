@@ -336,6 +336,51 @@ router.get('/reserve/:id',checkLogin,function(req,res,next){
                 });       
             });
 });
+
+
+router.get('/dashboard/notice',checkLogin,function(req,res,next){
+    db.query('select * from hospital where hospital.uid='+req.user.uid,function(err,result,fields){
+        if(err){
+            console.log(err);
+            throw err;
+        }else{    
+            res.render('dashboard_notice.ejs',{
+                hos_data : result[0]
+            });
+        }
+    });
+});
+
+router.post('/dashboard/notice',checkLogin,function(req,res,next){
+    query = "UPDATE hospital SET homepage=? , notice=? where uid = ?";
+    db.query(query,[req.body.homepage,req.body.notice,req.user.uid],function(error,rows,fields){
+        if(error) throw error;
+        else res.redirect('/hospital/dashboard');
+    });
+});
+
+router.get('/dashboard/update',checkLogin,function(req,res,next){
+    res.render('dashboard_hospital.ejs');
+});
+
+router.post('/dashboard/update',checkLogin,function(req,res,next){
+    //({
+        if(error) throw error;
+        else res.redirect('/hospital/dashboard');
+    //});
+});
+
+router.get('/dashboard/doctor',checkLogin,function(req,res,next){
+    res.render('dashboard_doctor.ejs');
+});
+
+router.post('/dashboard/doctor',checkLogin,function(req,res,next){
+        //({
+            if(error) throw error;
+            else res.redirect('/hospital/dashboard');
+        //});
+});
+
 router.get('/dashboard',checkLogin,function(req,res,next){
     reserveWhereQuery = ' (SELECT ID FROM HOSPITAL WHERE UID='+req.user.uid + ') ';
     todayQuery = 'SELECT (SELECT COUNT(*) FROM RESERVE WHERE HOSPITAL_ID='+ reserveWhereQuery +'AND \
@@ -463,9 +508,8 @@ router.post('/reserve_chart',checkLogin,function(req,res,next){
         });
     });
     
-    
-    
 });
+
 router.post('/reserve_chart_total',checkLogin,function(req,res,next){
     console.log(req.body);
     /*
