@@ -161,35 +161,44 @@ module.exports = function(passport) {
             console.log('사용자 인증된 상태임.');
             console.log('/profile 패스 요청됨.');
 
-            async.parallel(
-                {
-                    hos_sub_data : (callback) => db.query('select * from hospital_subject where hospital_id = ' + req.user.uid,callback),
-                    hos_doc_data : (callback) => db.query('select * from doctors where hospital_id = ' + req.user.uid,callback)
-                },(err,results) => {
-                    if (err){
-                        console.log(err);
+            if(req.user.ishospital){
+
+                hospital_Query = 'select * from (select c.*, d.ishospital, d.usido, d.ugungu, d.udong,(select group_concat(a.subject_id) as subjects from (select a.hospital_id as hospital_id, a.subject_id, b.subject as subject \
+                             from hospital_subject a,subject b where a.subject_id = b.code) a where a.hospital_id=c.id group by a.hospital_id) as subject_code, (select group_concat(a.subject) as subjects from ( select a.hospital_id as hospital_id,a.subject_id, b.subject as subject \
+                            from hospital_subject a,subject b where a.subject_id = b.code) a where a.hospital_id=c.id group by a.hospital_id) as subjects, (select group_concat(a.time) as times from ( select a.id as hospital_id, b.time as time\
+                            from hospital a, times b where a.id = b.hospital_id) a where a.hospital_id=c.id group by a.hospital_id) as time, (select avg(eval_score) from reserve cc where cc.hospital_id=c.id group by hospital_id) as score\
+                            from hospital c,user d where c.uid=d.uid) e where id = (select id from hospital where hospital.uid = ' + req.user.uid + ')';
+                doctor_Query = 'select name, description from doctors where hospital_id = (select id from hospital where hospital.uid = ' + req.user.uid + ')';
+
+                async.parallel({
+                    info_hos : (callback)=>db.query(hospital_Query, callback),
+                    info_doc : (callback)=>db.query(doctor_Query, callback)
+                },(err,results)=>{
+                     if (Array.isArray(req.user)) {
+                        res.render('profile.ejs',{
+                            user : req.user,
+                            data_hos : results['info_hos'][0][0],
+                            data_doc : results['info_doc'][0]
+                        });
+                    } else {
+                        res.render('profile.ejs',{
+                            user : req.user,
+                            data_hos : results['info_hos'][0][0],
+                            data_doc : results['info_doc'][0]
+                        });
                     }
-                    else{
-                        if (Array.isArray(req.user)) {
-                            res.render('profile.ejs',{
-                                user : req.user,
-                                hos_sub : results['hos_sub_data'][0],
-                                hos_doc : results['hos_doc_data'][0]
-                            });
-                        } else {
-                            res.render('profile.ejs',{
-                                user:req.user,
-                                hos_sub : results['hos_sub_data'][0],
-                                hos_doc : results['hos_doc_data'][0]
-                            });
-                        }
-                    }
+                });
+               
+            }else{
+                if (Array.isArray(req.user)) {
+                    res.render('profile.ejs',{user : req.user});
+                } else {
+                    res.render('profile.ejs',{user : req.user});
                 }
-            );
+            }    
         }
     });
 
-  	
     // 로그아웃
     router.route('/logout').get(function(req, res) {
         console.log('/logout 패스 요청됨.');

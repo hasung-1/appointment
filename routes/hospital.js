@@ -294,6 +294,28 @@ router.post('/reserve/ajax',function(req,res,next){
     });
 });
 
+router.get('/profile/:id',function(req,res,next){
+    var id = req.params.id;
+
+    hospital_Query = 'select * from (select c.id, (c.name) as uname, c.dong, (c.addr) as uaddress, (c.tel) as uphone, c.email, c.homepage, c.notice, d.ishospital, d.usido, d.ugungu, d.udong,(select group_concat(a.subject_id) as subjects from (select a.hospital_id as hospital_id, a.subject_id, b.subject as subject \
+        from hospital_subject a,subject b where a.subject_id = b.code) a where a.hospital_id=c.id group by a.hospital_id) as subject_code, (select group_concat(a.subject) as subjects from ( select a.hospital_id as hospital_id,a.subject_id, b.subject as subject \
+       from hospital_subject a,subject b where a.subject_id = b.code) a where a.hospital_id=c.id group by a.hospital_id) as subjects, (select group_concat(a.time) as times from ( select a.id as hospital_id, b.time as time\
+       from hospital a, times b where a.id = b.hospital_id) a where a.hospital_id=c.id group by a.hospital_id) as time, (select avg(eval_score) from reserve cc where cc.hospital_id=c.id group by hospital_id) as score\
+       from hospital c,user d where c.uid=d.uid) e where id = ' + parseInt(id);
+    doctor_Query = 'select name, description from doctors where hospital_id ='+ parseInt(id);
+
+    async.parallel({
+        info_hos : (callback)=>db.query(hospital_Query, callback),
+        info_doc : (callback)=>db.query(doctor_Query, callback)
+    },(err,results)=>{
+        console.log(results['info_hos'][0][0]);
+        res.render('profile.ejs',{
+            data_hos : results['info_hos'][0][0],
+            data_doc : results['info_doc'][0]
+        });
+    });
+});
+
 router.get('/reserve/:id',checkLogin,function(req,res,next){
     var id = req.params.id;
     var user = req.session.passport.user[0];
@@ -315,7 +337,6 @@ router.get('/reserve/:id',checkLogin,function(req,res,next){
                 });       
             });
 });
-
 router.get('/dashboard',checkLogin,function(req,res,next){
     reserveWhereQuery = ' (SELECT ID FROM HOSPITAL WHERE UID='+req.user.uid + ') ';
     todayQuery = 'SELECT (SELECT COUNT(*) FROM RESERVE WHERE HOSPITAL_ID='+ reserveWhereQuery +'AND \

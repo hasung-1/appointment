@@ -68,7 +68,7 @@ configPassport(app,passport);
 app.use(function(req,res,next)
 {
   res.locals.req = req;
-  console.log("123123132");
+  //console.log("123123132");
   if(req.user)
   {
     res.locals.user = req.user;
