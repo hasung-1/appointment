@@ -163,7 +163,7 @@ module.exports = function(passport) {
 
             if(req.user.ishospital){
 
-                hospital_Query = 'select * from (select c.*, d.ishospital, d.usido, d.ugungu, d.udong,(select group_concat(a.subject_id) as subjects from (select a.hospital_id as hospital_id, a.subject_id, b.subject as subject \
+                hospital_Query = 'select * from (select c.id, (c.name) as uname, c.dong, (c.addr) as uaddress, (c.tel) as uphone, c.email, c.homepage, c.notice, d.ishospital, d.usido, d.ugungu, d.udong,(select group_concat(a.subject_id) as subjects from (select a.hospital_id as hospital_id, a.subject_id, b.subject as subject \
                              from hospital_subject a,subject b where a.subject_id = b.code) a where a.hospital_id=c.id group by a.hospital_id) as subject_code, (select group_concat(a.subject) as subjects from ( select a.hospital_id as hospital_id,a.subject_id, b.subject as subject \
                             from hospital_subject a,subject b where a.subject_id = b.code) a where a.hospital_id=c.id group by a.hospital_id) as subjects, (select group_concat(a.time) as times from ( select a.id as hospital_id, b.time as time\
                             from hospital a, times b where a.id = b.hospital_id) a where a.hospital_id=c.id group by a.hospital_id) as time, (select avg(eval_score) from reserve cc where cc.hospital_id=c.id group by hospital_id) as score\
@@ -175,6 +175,7 @@ module.exports = function(passport) {
                     info_doc : (callback)=>db.query(doctor_Query, callback)
                 },(err,results)=>{
                      if (Array.isArray(req.user)) {
+                         console.log(results['info_hos'][0]);
                         res.render('profile.ejs',{
                             user : req.user,
                             data_hos : results['info_hos'][0][0],
