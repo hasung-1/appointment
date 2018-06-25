@@ -175,7 +175,6 @@ module.exports = function(passport) {
                     info_doc : (callback)=>db.query(doctor_Query, callback)
                 },(err,results)=>{
                      if (Array.isArray(req.user)) {
-                         console.log(results['info_hos'][0]);
                         res.render('profile.ejs',{
                             user : req.user,
                             data_hos : results['info_hos'][0][0],

@@ -308,7 +308,6 @@ router.get('/profile/:id',function(req,res,next){
         info_hos : (callback)=>db.query(hospital_Query, callback),
         info_doc : (callback)=>db.query(doctor_Query, callback)
     },(err,results)=>{
-        console.log(results['info_hos'][0][0]);
         res.render('profile.ejs',{
             data_hos : results['info_hos'][0][0],
             data_doc : results['info_doc'][0]
