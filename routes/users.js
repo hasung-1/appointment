@@ -92,6 +92,7 @@ module.exports = function(passport) {
                         console.log(err);
                     }
                     else{
+                        user_Query = 'select * from user where uuid=?'
                         hos_sub_Query = 'select subject_id from hospital_subject where hospital_id=?';
                         doctor_Query = 'select name from doctors where hospital_id=?';
                         time_Query = 'select time from times where hospital_id=?';
@@ -99,6 +100,7 @@ module.exports = function(passport) {
 
                         async.parallel(
                             {
+                                user_data : (callback) => db.query(user_Query,req.user.uuid,callback),
                                 hos_sub_data: (callback) => db.query(hos_sub_Query,parseInt(hos_result[0].id),callback),                                 
                                 doctors_data: (callback) => db.query(doctor_Query,parseInt(hos_result[0].id),callback),                                
                                 times_data: (callback) => db.query(time_Query,parseInt(hos_result[0].id),callback),
