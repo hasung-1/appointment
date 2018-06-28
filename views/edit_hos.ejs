@@ -455,6 +455,7 @@
                 $("#times option:selected").remove();
                 
                 var len1 = Object.keys(times).length;
+                confirm(len1);
                 for( var i=0 ;i<len1;i++)
                 {
                     $('#times option:eq('+i+')').prop("selected", true);
@@ -464,6 +465,7 @@
                 $("#doctors option:selected").remove();
                 
                 var len1 = Object.keys(doctors).length;
+                confirm(len1);
                 for( var i=0 ;i<len1;i++)
                 {
                     $('#doctors option:eq('+i+')').prop("selected", true);
