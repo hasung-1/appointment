@@ -352,26 +352,207 @@ router.get('/dashboard/notice',checkLogin,function(req,res,next){
 });
 
 router.post('/dashboard/notice',checkLogin,function(req,res,next){
-    query = "UPDATE hospital SET homepage=? , notice=? where uid = ?";
-    db.query(query,[req.body.homepage,req.body.notice,req.user.uid],function(error,rows,fields){
+    query = "UPDATE hospital SET notice=? where uid = ?";
+    db.query(query,[req.body.notice,req.user.uid],function(error,rows,fields){
         if(error) throw error;
         else res.redirect('/hospital/dashboard');
     });
 });
 
 router.get('/dashboard/update',checkLogin,function(req,res,next){
-    res.render('dashboard_hospital.ejs');
+    if(req.body.ishospital || req.user.ishospital){
+        console.log('병원 계정 사용자.');
+        db.query('select * from hospital where email=?',req.user.uuid,function(err,hos_result,fields){
+            if(err) console.log(err);
+            else{
+                hos_sub_Query = 'select subject_id from hospital_subject where hospital_id=?';
+                doctor_Query = 'select name from doctors where hospital_id=?';
+                time_Query = 'select time from times where hospital_id=?';
+                subject_Query = 'select * from subject';
+
+                async.parallel(
+                    {
+                        hos_sub_data: (callback) => db.query(hos_sub_Query,hos_result[0].id,callback),                                 
+                        doctors_data: (callback) => db.query(doctor_Query,hos_result[0].id,callback),                                
+                        times_data: (callback) => db.query(time_Query,hos_result[0].id,callback),
+                        sub_data: (callback) => db.query(subject_Query,callback)        
+                    },(err, results) => {                                
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            res.render('dashboard_hospital.ejs', {                     
+                                subjects : results['sub_data'][0],
+                                hospital_info : hos_result[0],
+                                hos_sub_info : results['hos_sub_data'][0],
+                                doctor_info : results['doctors_data'][0],
+                                time_info : results['times_data'][0],
+                                message : req.flash('signupMessage')
+                            });
+                        }
+                });                
+            }
+        });
+    }
 });
 
 router.post('/dashboard/update',checkLogin,function(req,res,next){
-    //({
-        if(error) throw error;
-        else res.redirect('/hospital/dashboard');
-    //});
+            // var user_up = 'UPDATE user SET uname=?, uphone=?, usido=?, ugungu=?, udong=?, uzip=?, uaddress=? WHERE uid=?';
+            // var hos_up =  'UPDATE hospital SET name=?, dong=?, addr=?, tel=?, homepage=? WHERE uid=?';
+
+            // var user_data=[
+            //     req.body.name,
+            //     req.body.tel,
+            //     req.body.sido,
+            //     req.body.gungu,
+            //     req.body.dong,
+            //     req.body.post1,
+            //     req.body.addr + ' ' + req.body.addr_,
+            //     req.user.uid];
+            // var hos_data=
+            //     [req.body.name,
+            //     req.body.dong,
+            //     req.body.addr + ' ' + req.body.addr_,
+            //     req.body.tel,
+            //     req.body.homepage,
+            //     req.user.uid];
+
+            // //update
+            // async.parallel({
+            //     user_update : (callback) => db.query(user_up,user_data,callback),
+            //     hos_update : (callback) => db.query(hos_up,hos_data,callback)
+            // },(err,results)=>{
+            //     if(err){
+            //         console.log(err);
+            //         throw err;
+            //     }
+            //     else{
+            //         console.log("user & hospital 정보 Update.");
+            //         var hos_id = 'SELECT id FROM hospital WHERE uid=' + req.user.uid ;
+            //         var hos_sub_del = 'DELETE FROM hospital_subject WHERE hospital_id = (' + hos_id + ')'; 
+            //         var times_del = 'DELETE FROM times WHERE hospital_id  = (' + hos_id + ')'; 
+            //         var hosp_inst_id = '';
+
+            //         //delete
+            //         async.parallel({
+            //             hos_sub_delete : (callback) => db.query(hos_sub_del,callback),
+            //             time_delete : (callback) => db.query(times_del,callback)
+            //         },(err,results)=>{
+            //             if(err)
+            //                 console.log(err);
+            //             else{
+            //                 console.log('Hospital 관련 subject,time 삭제.');
+            //                 var hosp_inst_id = results['hos_int_id'][0][0].id;
+          
+            //                 var hos_sub_len = req.body.subjects.length;
+            //                 var time_len = req.body.times.length;
+
+            //                 console.log(hos_sub_len,dr_len, time_len);
+
+            //                 //insert
+            //                 async.parallel([
+            //                     hos_sub_add,
+            //                     time_add
+            //                 ],function (err, results){
+            //                     if (err) console.log(err)
+            //                     else console.log('Hospital 관련 subject,time 새로 추가.');
+            //                 });
+                        
+            //                 function hos_sub_add(callback){
+            //                     if (hos_sub_len==1){
+            //                         var hos_subject = [
+            //                             parseInt(hosp_inst_id),
+            //                             req.body.subjects];
+
+            //                         console.log(hos_subject);
+            //                         db.query('INSERT INTO hospital_subject (hospital_id, subject_id) VALUES (?, ?)',hos_subject,function(err,sub_result){
+            //                             if(err){
+            //                                 console.log(err);
+            //                                 throw err;
+            //                             }
+            //                             else return (callback);
+            //                         });
+            //                     }else{
+            //                         for ( var i=0; i<hos_sub_len;i++){
+                                        
+            //                             var hos_subject = [
+            //                                 parseInt(hosp_inst_id),
+            //                                 req.body.subjects[i]];
+
+            //                             console.log(hos_subject);
+            //                             db.query('INSERT INTO hospital_subject (hospital_id, subject_id) VALUES (?, ?)',hos_subject,function(err,sub_result){
+            //                                 if(err){
+            //                                     console.log(err);
+            //                                     throw err;
+            //                                 }
+            //                                 else return (callback);
+            //                             });
+            //                         }
+            //                     }
+            //                 }
+            //                 function time_add(callback){
+            //                     if(time_len==1){
+            //                         var hos_time = [
+            //                             parseInt(hosp_inst_id),
+            //                             req.body.times];
+
+            //                         console.log(hos_time);
+
+            //                         db.query('INSERT INTO times (hospital_id, time) VALUES (?, ?)',hos_time,function(err,time_result){
+            //                             if(err){
+            //                                 console.log(err);
+            //                                 throw err;
+            //                             }
+            //                             else return (callback);
+            //                         });
+            //                     }else{
+            //                         for ( var i=0; i<time_len;i++){
+
+            //                             var hos_time = [
+            //                                 parseInt(hosp_inst_id),
+            //                                 req.body.times[i]];
+
+            //                             console.log(hos_time);
+
+            //                             db.query('INSERT INTO times (hospital_id, time) VALUES (?, ?)',hos_time,function(err,time_result){
+            //                                 if(err){
+            //                                     console.log(err);
+            //                                     throw err;
+            //                                 }
+            //                                 else return (callback);
+            //                             });
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //         });
+            //         res.redirect('/hospital/dashboard');
+            //     }
+            // });
 });
 
 router.get('/dashboard/doctor',checkLogin,function(req,res,next){
-    res.render('dashboard_doctor.ejs');
+    
+    var doc_sel = 'select * from doctors where hospital_id = ( select id from hospital where uid = ' + req.user.uid + ')';
+    var hos_sub_sel = 'select * from hospital_subject where hospital_id = ( select id from hospital where uid = ' + req.user.uid + ')';
+    var sub_sel = 'select * from subject';
+
+    async.parallel(
+    {
+        data_doctor : (callback) => db.query(doc_sel, callback),
+        data_hos_sub : (callback) => db.query(hos_sub_sel, callback),
+        data_subjects : (callback) => db.query(sub_sel, callback)
+    },(err,results)=>{
+        if(err) console.log(err)
+        else{
+            var data = {
+                doctors : results['data_doctor'][0],
+                hos_sub : results['data_hos_sub'][0],
+                subjects : results['data_subjects'][0]
+            }
+            res.render('dashboard_doctor.ejs',{data : data});
+        }
+    });
 });
 
 router.post('/dashboard/doctor',checkLogin,function(req,res,next){
@@ -388,14 +569,14 @@ router.get('/dashboard',checkLogin,function(req,res,next){
     async.parallel(
         {
             todayList : (callback)=>db.query(todayQuery,callback),
-        },(error,results)=>
-            {
-                res.render('dashboard',{
-                        todayList:results['todayList'][0],
-                        moment:moment
+        },(error,results)=>{
+            res.render('dashboard',{
+                    todayList:results['todayList'][0],
+                    moment:moment
             });       
-            });
+        });
 });
+
 router.get('/dashboard/chart',checkLogin,function(req,res,next){
     res.render('dashboard_chart');
 });

@@ -66,44 +66,24 @@
                                             <i class="fa fa-list-alt"></i> 공지사항</h3>
                                 </div>
                                 <div class="panel-body">
-                                        <div class="form-group" id="divHomepage">
-                                            <label for="inputHomepage" class="col-lg-2 control-label">홈 페이지</label>
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" id="homepage" name="homepage" value="<%= hos_data.homepage %>" data-rule-required="true" placeholder="Homepage">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="divNotice">
-                                            <label for="inputNotice" class="col-lg-2 control-label">공지사항</label>
-                                            <div class="col-lg-10">
-                                                <textarea type="text" class="form-control" style="height:100px;resize:none" id="notice" name="notice" data-rule-required="true" placeholder="Notice"><%= hos_data.notice %></textarea>
-                                            </div>
+                                    
+                                    <div class="form-group" id="divNotice">
+                                        <div class="col-lg-10">
+                                            <textarea type="text" class="form-control" style="height:200px;resize:none" id="notice" name="notice" data-rule-required="true" placeholder="Notice"><%= hos_data.notice %></textarea>
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group">
-                                        <div class="col-lg-offset-2 col-lg-10">
+                                        <div class="col-lg-offset-1 col-lg-10">
                                             <button type="submit" class="btn btn-default">변경</button>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-            
-
-
-
-                <script type="text/javascript">
-                    function appendUrlParameter(key, value, isSubmit = true) {
-                        $('input[name=' + key + ']').val(value);
-                        if (isSubmit) {
-                            $('form').submit();
-                        }
-                        //var append_Url = updateUrlParameter(url,key,value);
-                        //console.log(append_Url);
-                        //location.href=append_Url;
-                    }
-                </script>
 </body>
 
 </html>
