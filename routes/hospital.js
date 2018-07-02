@@ -555,11 +555,9 @@ router.get('/dashboard/doctor',checkLogin,function(req,res,next){
     });
 });
 
-router.post('/dashboard/doctor',checkLogin,function(req,res,next){
-        //({
-            if(error) throw error;
-            else res.redirect('/hospital/dashboard');
-        //});
+router.post('/dashboard/doctor/:name',checkLogin,function(req,res,next){
+    if(error) throw error;
+    else res.redirect('/hospital/dashboard');
 });
 
 router.get('/dashboard',checkLogin,function(req,res,next){
