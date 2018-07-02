@@ -67,58 +67,58 @@
                                             <i class="fa fa-wrench"></i> 의사 정보 수정</h3>
                                 </div>
                                 <div class="panel-body">
-                                        <div class="table-responsive">
-                                                <table class="table table-bordered table-hover table-striped">
-                                                    <thead>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>의사</th>
+                                                    <th>진료 과목</th>
+                                                    <th>의사 소개</th>
+                                                    <th>비고</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <%data.doctors.forEach(function(item,index){%>
                                                         <tr>
-                                                            <th>의사</th>
-                                                            <th>진료 과목</th>
-                                                            <th>의사 소개</th>
-                                                            <th>비고</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <%data.doctors.forEach(function(item,index){%>
-                                                                <tr>
-                                                                    <td>
-                                                                        <%=item.name%>
-                                                                    </td>
-                                                                    <td>
-                                                                        <select name="subject" id="subject" class="selectpicker" data-size="10" multiple placeholder= "Choice">
-                                                                            <% data.subjects.forEach(function(item,index){ %>
-                                                                                <% data.hos_sub.forEach(function(hs_item,index){ %>
-                                                                                    <% if(hs_item.subject_id == item.code){ %>
-                                                                                        <option value='<%=item.code%>'><%=item.subject%></option>
-                                                                                    <% } %>
-                                                                                <% }) %>
-                                                                            <% }) %>
+                                                            <td>
+                                                                <%=item.name%>
+                                                            </td>
+                                                            <td>
+                                                                <select name="subject" id="subject" class="selectpicker" data-size="10" multiple placeholder= "Choice">
+                                                                    <% data.subjects.forEach(function(item,index){ %>
+                                                                        <% data.hos_sub.forEach(function(hs_item,index){ %>
+                                                                            <% if(hs_item.subject_id == item.code){ %>
+                                                                                <option value='<%=item.code%>'><%=item.subject%></option>
+                                                                            <% } %>
+                                                                        <% }) %>
+                                                                    <% }) %>
 
-                                                                        </select>
-                                                                    </td>
-                                                                    <td>
-                                                                        <textarea type="text" class="form-control" id="description" name="description"><%=item.description%></textarea>
-                                                                    </td>
-                                                                    <td>
-                                                                        <%=item.doctor_name%>
-                                                                    </td>
-                                                                </tr>
-                                                                <%})%>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <textarea type="text" class="form-control" id="description" name="description"><%=item.description%></textarea>
+                                                            </td>
+                                                            <td>
+                                                                <%=item.doctor_name%>
+                                                            </td>
+                                                        </tr>
+                                                        <%})%>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-    <script type="text/javascript">
-        $(function () {
-            $('.selectpicker').selectpicker({
-                style: 'btn-success',
-                size: 4
-            });
-        });
-    </script>
+                <script type="text/javascript">
+                    $(function () {
+                        $('.selectpicker').selectpicker({
+                            style: 'btn-success',
+                            size: 4
+                        });
+                    });
+                </script>
 </body>
 
 </html>
